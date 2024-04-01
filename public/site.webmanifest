@@ -1,0 +1,33 @@
+{
+    "name": "ride-with-me",
+    "short_name": "ride",
+    "start_url": "../index.html",
+    "icons": [
+      {
+        "src": "./Vehicle196.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "/Vehicle256.png",
+        "sizes": "256x256",
+        "type": "image/png"
+      },
+      {
+        "src": "/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#000",
+    "display": "standalone",
+    "prefer_related_applications": true,
+    "related_applications": [
+    {
+    "platform": "play",
+    "id": "com.google.samples.apps.iosched"
+    }
+]
+  }

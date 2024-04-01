@@ -10,3 +10,12 @@
 #upload-photo {
   display: none;
 }
+
+/* .mapboxgl-ctrl {
+  display: none;
+}
+*/
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right {
+  display: none;
+}

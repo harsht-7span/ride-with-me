@@ -4,11 +4,11 @@ import congrats from "../../assets/signup/congrats.svg";
 const SuccessfullPage = () => {
   return (
     <div className="container flex items-center justify-center h-svh">
-      <div className="flex flex-col rounded-lg bg-congratsBg h-72">
+      <div className="flex flex-col justify-center rounded-lg bg-congratsBg h-72">
         <div className="flex justify-end mt-5 mr-4">
           <img src={cancel} alt="cancel button" />
         </div>
-        <span className="mt-3 text-2xl font-semibold font-poppins">
+        <span className="mt-3 text-2xl font-semibold text-center font-poppins">
           Your verification was successful
         </span>
         <div className="flex justify-center grow">
