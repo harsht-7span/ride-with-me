@@ -138,6 +138,7 @@ function SignUpPage() {
                           <div className="flex items-center px-2 border rounded">
                             <Email />
                             <Input
+                              type="email"
                               placeholder="email"
                               {...field}
                               className="text-gray-500 border-0"
