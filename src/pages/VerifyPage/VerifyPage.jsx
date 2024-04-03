@@ -1,28 +1,62 @@
+import { verifyOtp } from "@/api/auth";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { useToast } from "@/components/ui/use-toast";
+import { otpSchema } from "@/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+
 function VerifyPage() {
-  const [codes, setCodes] = useState(["", "", "", ""]);
-  const codeInputs = useRef([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  useEffect(() => {
-    codeInputs.current[0].focus();
-  }, []);
+  const phoneNumber = location.state;
 
-  const handleChange = (index, e) => {
-    const { value } = e.target;
-    if (/^\d*$/.test(value) && value.length <= 1) {
-      const newCodes = [...codes];
-      newCodes[index] = value;
-      setCodes(newCodes);
-      if (value !== "" && index < 3) {
-        codeInputs.current[index + 1].focus();
-      }
-    }
-  };
+  const otpForm = useForm({
+    resolver: zodResolver(otpSchema),
+    defaultValues: {
+      phoneNumber: phoneNumber,
+      otp: "",
+    },
+  });
 
-  const handleKeyDown = (index, e) => {
-    if (e.key === "Backspace" && index > 0 && codes[index] === "") {
-      codeInputs.current[index - 1].focus();
-    }
+  const onSubmit = (val) => {
+    const { otp } = val;
+
+    let payload = {
+      phoneNumber: phoneNumber,
+      otp: otp,
+    };
+
+    verifyOtp(payload)
+      .then((res) => {
+        console.log(res);
+        toast({
+          variant: "success",
+          title: res.data.message,
+        });
+        navigate("/successfull");
+      })
+      .catch((res) => {
+        toast({
+          variant: "destructive",
+          title: res.data.message,
+        });
+      });
+    otpForm.reset();
   };
 
   return (
@@ -31,35 +65,60 @@ function VerifyPage() {
         <div className="flex justify-start">
           <h1 className="text-4xl text-black font-poppins">Verify</h1>
         </div>
+
         <div className="flex justify-start mt-2">
           <p className="text-sm font-normal text-grayB text-wrap font-poppins">
             Enter the code sent to xxxxx xxxxx
           </p>
         </div>
+
         <div className="flex h-64 mt-8 justify-evenly grow">
-          {codes.map((code, index) => (
-            <input
-              key={index}
-              type="text"
-              id={`verificationCode${index}`}
-              name={`verificationCode${index}`}
-              value={code}
-              onChange={(e) => handleChange(index, e)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              ref={(input) => (codeInputs.current[index] = input)}
-              maxLength="1"
-              autoComplete="off"
-              className="w-16 h-16 mr-2 text-2xl text-center border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500"
-            />
-          ))}
-        </div>
-        <div className="flex font-thin border-2 mt-9 rounded-xl bg-BrandColor">
-          <button
-            type="submit"
-            className="w-full gap-2 px-4 py-4 text-sm font-normal text-white font-poppins"
-          >
-            Continue
-          </button>
+          <Form {...otpForm}>
+            <form onSubmit={otpForm.handleSubmit(onSubmit)}>
+              <FormField
+                key="otp"
+                name="otp"
+                control={otpForm.control}
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormControl>
+                        <InputOTP maxLength={4} {...field} className="rounded">
+                          <InputOTPGroup className="space-x-4">
+                            <InputOTPSlot
+                              index={0}
+                              className="w-[70px] h-[72px] font-Poppins text-5xl leading-[72px]  px-2 py-0 border border-[#9E9E9E]"
+                            />
+                            <InputOTPSlot
+                              index={1}
+                              className="w-[70px] h-[72px] font-Poppins text-5xl leading-[72px] px-2 py-0 border border-[#9E9E9E]"
+                            />
+                            <InputOTPSlot
+                              index={2}
+                              className=" w-[70px] h-[72px] font-Poppins text-5xl leading-[72px]  px-2 py-0 border border-[#9E9E9E]"
+                            />
+                            <InputOTPSlot
+                              index={3}
+                              className="w-[70px] h-[72px] font-Poppins text-5xl leading-[72px]  px-2 py-0 border border-[#9E9E9E]"
+                            />
+                          </InputOTPGroup>
+                        </InputOTP>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              <div className="flex font-thin border-2 mt-9 rounded-xl bg-rose">
+                <button
+                  type="submit"
+                  className="w-full gap-2 px-4 py-4 text-sm font-normal text-white font-poppins"
+                >
+                  Continue
+                </button>
+              </div>
+            </form>
+          </Form>
         </div>
       </div>
     </div>
