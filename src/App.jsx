@@ -28,6 +28,7 @@ function App() {
             path="/riderRegistreation"
             element={<RiderRegistrationPage />}
           />
+          <Route path="/homePage" element={<HomePage />} />
         </Route>
       </Routes>
       <Toaster />

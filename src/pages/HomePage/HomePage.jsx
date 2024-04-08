@@ -14,7 +14,7 @@ function HomePage() {
         <div id="map">
           <MapboxPage />
         </div>
-        <div className="absolute bottom-0 w-full ">
+        <div className="absolute bottom-0 w-full h-full ">
           <div className="overflow-hidden bg-white rounded-t-xl">
             {/* Place the button outside the search section div */}
             <div
