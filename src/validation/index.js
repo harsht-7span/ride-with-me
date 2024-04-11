@@ -2,11 +2,21 @@ import { data } from "autoprefixer";
 import * as z from "zod";
 
 export const loginSchema = z.object({
+  // phoneNumber: z
+  //   .string()
+  //   .min(10, { message: "Enter  mobile number" })
+  //   .refine((data) => data.length >= 10, {
+  //     message: "Enter valid mobile number",
+  //   }),
   phoneNumber: z
     .string()
-    .min(10, { message: "Enter valid mobile number" })
+    .min(1, { message: "Enter valid mobile number" })
+    .max(10, { message: "number should not greater than 10" })
+    .regex(/^\d+$/, {
+      message: "Mobile number must contain only numeric digits",
+    })
     .refine((data) => data.length >= 10, {
-      message: "Enter valid mobile number",
+      message: "Enter 10 digit number",
     }),
 });
 
