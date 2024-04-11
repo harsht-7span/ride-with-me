@@ -15,9 +15,60 @@
   display: none;
 }
 */
-.mapboxgl-ctrl-bottom-left,
+/* .mapboxgl-ctrl-bottom-left,
 .mapboxgl-ctrl-bottom-right {
   display: none;
+} */
+
+.mapbox-directions-instructions,
+.mapbox-directions-profile,
+.mapboxgl-ctrl-logo {
+  display: none;
+}
+/* .mapboxgl-ctrl-directions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+} */
+
+.map-wrap .mapboxgl-ctrl-bottom-left {
+  display: block;
+}
+
+.map-wrap .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
+  width: 100%;
+}
+.map-wrap a.mapboxgl-ctrl-logo {
+  display: none;
+}
+
+.map-wrap .mapboxgl-ctrl-attrib-inner {
+  display: none;
+}
+.map-wrap .mapbox-directions-component-keyline {
+  margin: 0 auto;
+  padding: 20px 10px;
+}
+.mapboxgl-ctrl-bottom-left {
+  display: grid;
+  justify-content: space-between;
+  height: fit-content;
+  width: 100%;
+  background-color: rgb(225, 225, 225);
+  border-radius: 10px 10px 0 0;
+}
+.mapbox-directions-component-keyline {
+  max-width: 500px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px 0px 10px 10px;
+}
+.mapboxgl-ctrl-geocoder input {
+  background: rgb(255, 255, 255);
+  border-radius: 10px;
+  width: 100%;
+  padding: 10px;
 }
 
 @layer base {

@@ -3,12 +3,11 @@ import SuccessfullPage from "./pages/Successfull/SuccessfullPage";
 import VerifyPage from "./pages/VerifyPage/VerifyPage";
 import RiderRegistrationPage from "./pages/RiderRegistrationPage/RiderRegistrationPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
-import MapboxPage from "./components/MapBoxPage";
 import HomePage from "./pages/HomePage/HomePage";
-import Test from "./components/Test";
 import { Outlet, Route, Router, Routes } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import { Toaster } from "./components/ui/toaster";
+import DistanceMatrix from "./components/DistanceMatrix";
 
 function Layout() {
   return <Outlet />;
@@ -28,6 +27,7 @@ function App() {
             path="/riderRegistreation"
             element={<RiderRegistrationPage />}
           />
+          {/* <Route path="/distance" element={<DistanceMatrix />} /> */}
           <Route path="/homePage" element={<HomePage />} />
         </Route>
       </Routes>
