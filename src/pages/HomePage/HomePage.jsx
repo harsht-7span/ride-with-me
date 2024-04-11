@@ -1,49 +1,47 @@
-import React, { useState } from "react";
 import MapboxPage from "../../components/MapBoxPage";
+import { Input } from "@/components/ui";
+import Search from "@/assets/icons/search";
+import LocationMarker from "@/assets/icons/locationMarker";
+import { Drawer } from "vaul";
 
 function HomePage() {
-  const [isSearchOpen, setSearchOpen] = useState(false);
-
-  const toggleSearch = () => {
-    setSearchOpen(!isSearchOpen);
-  };
-
   return (
     <>
-      <div id="homeParent" className="relative ">
+      <div className=" ">
         <div id="map">
           <MapboxPage />
         </div>
-        <div className="absolute bottom-0 w-full h-full ">
-          <div className="overflow-hidden bg-white rounded-t-xl">
-            {/* Place the button outside the search section div */}
-            <div
-              onClick={toggleSearch}
-              className="px-4 py-2 m-auto text-center text-white bg-blue-500 rounded"
-            >
-              {isSearchOpen ? "Hide Search" : "Show Search"}
-            </div>
-          </div>
 
-          <div
-            className={`bg-white rounded-t-xl transition-all duration-300 ${
-              isSearchOpen ? "h-full" : "h-0"
-            }`}
-          >
-            <div id="directions" className="py-2 space-y-3">
-              <input
-                type="text"
-                placeholder="from"
-                className="w-full px-4 bg-gray-300 "
-              />
-              <input
-                placeholder="destination"
-                type="text"
-                className="w-full px-4 bg-gray-300 "
-              />
-            </div>
+        {/* <div className="  w-full h-[100px] bottom-0 rounded-t-3xl absolute z-10 bg-green-500 container">
+          <div className="w-7 h-1 bg-gray-500 rounded flex m-auto mt-2 mb-3"></div>
+          <div className="flex gap-1 rounded items-center justify-center border-2 border-gray-500 mt-6 mb-4 ">
+            <Search />
+            <Input
+              type="text"
+              placeholder="Search destination"
+              className="border-1  border-gray-500 bg-red-500 text-white "
+            />
           </div>
-        </div>
+          <h1 className="font-medium text-xl leading-8">
+            Where would you like to go?
+          </h1>
+          <div className="flex gap-1 rounded items-center justify-center border-2 border-gray-500 mt-6 mb-4 ">
+            <LocationMarker />
+            <Input
+              type="text"
+              placeholder="Nearest location suggestion 1"
+              className="border-1  border-gray-500 bg-red-500 text-white "
+            />
+          </div>
+          <div className="flex gap-1 rounded items-center justify-center border-2 border-gray-500 mt-6 mb-4 ">
+            <LocationMarker />
+            <Input
+              type="text"
+              placeholder="Nearest location suggestion 2"
+              className="border-1  border-gray-500 bg-red-500 text-white "
+            />
+          </div>
+        </div> */}
       </div>
     </>
   );
