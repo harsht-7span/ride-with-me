@@ -39,6 +39,12 @@
 .map-wrap .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
   width: 100%;
 }
+.mapboxgl-user-location-accuracy-circle {
+  /* background: red; */
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+}
 .map-wrap a.mapboxgl-ctrl-logo {
   display: none;
 }
@@ -48,6 +54,7 @@
 }
 .map-wrap .mapbox-directions-component-keyline {
   margin: 0 auto;
+  display: none;
   padding: 20px 10px;
 }
 .mapboxgl-ctrl-bottom-left {
@@ -64,12 +71,12 @@
   padding: 10px;
   border-radius: 10px 0px 10px 10px;
 }
-.mapboxgl-ctrl-geocoder input {
+/* .mapboxgl-ctrl-geocoder input {
   background: rgb(255, 255, 255);
   border-radius: 10px;
   width: 100%;
   padding: 10px;
-}
+} */
 
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
