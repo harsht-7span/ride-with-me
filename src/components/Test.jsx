@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Button, Input } from "./ui";
-
 import {
   Mini,
   Premium,
@@ -10,10 +9,10 @@ import {
   RedMarker,
   GreenMarker,
   Auto,
-  LocationMarker,
+  Search,
 } from "@/assets/icons/index";
 import { Drawer } from "vaul";
-import Search from "@/assets/icons/search";
+import { VehicleCard } from "./vehicleCard";
 
 const Test = () => {
   const mapContainerRef = useRef(null);
@@ -25,6 +24,11 @@ const Test = () => {
   const [routeDistance, setRouteDistance] = useState(
     parseFloat(localStorage.getItem("routeDistance")) || null
   );
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+
+  const handleSelectVehicle = (vehicle) => {
+    setSelectedVehicle(vehicle);
+  };
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -127,6 +131,33 @@ const Test = () => {
     }
   };
 
+  const vehicles = [
+    {
+      type: "Bike",
+      description: "Get bikes at your doorstep",
+      icon: <Bike />,
+      pricePerKm: 20,
+    },
+    {
+      type: "Auto",
+      description: "Get bikes at your doorstep",
+      icon: <Auto />,
+      pricePerKm: 30,
+    },
+    {
+      type: "Mini",
+      description: "Compfy, sconomical cars",
+      icon: <Mini />,
+      pricePerKm: 40,
+    },
+    {
+      type: "Premium",
+      description: "Spacious sedans, top drivers",
+      icon: <Premium />,
+      pricePerKm: 50,
+    },
+  ];
+
   return (
     <Drawer.Root>
       <div className="map-wrap h-[100vh] w-full  relative">
@@ -137,7 +168,7 @@ const Test = () => {
             <div className="w-full border border-gray-500 flex items-center rounded px-4 gap-1">
               <Search />
               <Input
-                className="border-none"
+                className="border-none text-gray-500"
                 type="text"
                 placeholder="Search destination"
               />
@@ -145,6 +176,7 @@ const Test = () => {
             <h2 className="text-xl font-medium py-4">
               Where would you like to go?
             </h2>
+            {/*
             <div className="w-full border border-gray-500 flex items-center rounded px-4 gap-1">
               <LocationMarker />
               <Input
@@ -160,7 +192,7 @@ const Test = () => {
                 type="text"
                 placeholder="Nearest location suggestion 2"
               />
-            </div>
+            </div> */}
           </div>
         </Drawer.Trigger>
 
@@ -172,7 +204,7 @@ const Test = () => {
                 <div className="flex rounded items-center w-full border border-black">
                   <GreenMarker />
                   <Input
-                    className="border-none"
+                    className="border-none text-gray-500"
                     type="text"
                     placeholder="Origin"
                     value={originInput}
@@ -182,7 +214,7 @@ const Test = () => {
                 <div className="flex rounded items-center w-full border border-black">
                   <RedMarker />
                   <Input
-                    className="border-none"
+                    className="border-none text-gray-500"
                     type="text"
                     placeholder="Destination"
                     value={destinationInput}
@@ -202,42 +234,22 @@ const Test = () => {
               </div>
 
               {routeDistance !== null && (
-                <div className="flex flex-col justify-center">
+                <div className="flex flex-col justify-center container">
                   <div className="bookingCategory flex flex-col gap-5 ">
-                    <div className="bike grid grid-cols-3  justify-items-center ">
-                      <Bike />
-                      <div>
-                        <h2>Bike</h2>
-                        <p>Get autos at your doorstep</p>
-                      </div>
-                      <h3>₹{routeDistance.toFixed() * 20}</h3>
-                    </div>
-                    <div className="auto  grid grid-cols-3  justify-items-center">
-                      <Auto />
-                      <div>
-                        <h2>Auto</h2>
-                        <p>Get autos at your doorstep</p>
-                      </div>
-                      <h3>₹{routeDistance.toFixed() * 30}</h3>
-                    </div>
-                    <div className="mini  grid grid-cols-3  justify-items-center">
-                      <Mini />
-                      <div>
-                        <h2>Mini</h2>
-                        <p>Compfy, sconomical cars</p>
-                      </div>
-                      <h3>₹{routeDistance.toFixed() * 40}</h3>
-                    </div>
-                    <div className="premium  grid grid-cols-3  justify-items-center ">
-                      <Premium />
-                      <div>
-                        <h2>Premium</h2>
-                        <p>Spacious sedans, top drivers</p>
-                      </div>
-                      <h3>₹{routeDistance.toFixed() * 50}</h3>
-                    </div>
+                    {vehicles.map((vehicle, index) => (
+                      <VehicleCard
+                        key={index}
+                        vehicle={vehicle}
+                        routeDistance={routeDistance}
+                        onSelect={handleSelectVehicle}
+                      />
+                    ))}
                   </div>
-                  <Button className="m-2 bg-rose rounded">Book Auto</Button>
+                  {selectedVehicle && (
+                    <Button className="m-2 bg-rose rounded">
+                      Book {selectedVehicle.type}
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
