@@ -1,6 +1,6 @@
 import MapboxPage from "../../components/MapBoxPage";
 import { Button, Input } from "@/components/ui";
-import Search from "@/assets/icons/search";
+import { Search } from "@/assets/icons";
 // import LocationMarker from "@/assets/icons/locationMarker";
 import { Drawer } from "vaul";
 import Test from "@/components/Test";
