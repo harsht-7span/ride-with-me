@@ -9,3 +9,5 @@ export * from "@/assets/icons/search";
 export * from "@/assets/icons/tick";
 export * from "@/assets/icons/user";
 export * from "@/assets/icons/locationMarker";
+export * from "@/assets/icons/greenMarker";
+export * from "@/assets/icons/redMarker";

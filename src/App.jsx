@@ -28,7 +28,7 @@ function App() {
             element={<RiderRegistrationPage />}
           />
           {/* <Route path="/distance" element={<DistanceMatrix />} /> */}
-          <Route path="/homePage" element={<HomePage />} />
+          <Route path="/homepage" element={<HomePage />} />
         </Route>
       </Routes>
       <Toaster />

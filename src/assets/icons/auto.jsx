@@ -1,6 +1,6 @@
 import React from "react";
 
-function Auto() {
+export const Auto = () => {
   return (
     <svg
       width="53"
@@ -528,10 +528,10 @@ function Auto() {
           y2="17.9053"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FF6C96" />
-          <stop offset="0.33" stop-color="#FF6C96" />
-          <stop offset="0.88" stop-color="#E64563" />
-          <stop offset="1" stop-color="#E33F68" />
+          <stop stopColor="#FF6C96" />
+          <stop offset="0.33" stopColor="#FF6C96" />
+          <stop offset="0.88" stopColor="#E64563" />
+          <stop offset="1" stopColor="#E33F68" />
         </linearGradient>
         <linearGradient
           id="paint10_linear_417_8761"
@@ -640,8 +640,8 @@ function Auto() {
           y2="14.5946"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A8E5E1" />
-          <stop offset="1" stop-color="#A0C0E1" />
+          <stop stopColor="#A8E5E1" />
+          <stop offset="1" stopColor="#A0C0E1" />
         </linearGradient>
         <linearGradient
           id="paint20_linear_417_8761"
@@ -745,6 +745,4 @@ function Auto() {
       </defs>
     </svg>
   );
-}
-
-export default Auto;
+};

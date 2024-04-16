@@ -1,6 +1,6 @@
 import React from "react";
 
-function LocationMarker() {
+export const LocationMarker = () => {
   return (
     <svg
       width="10"
@@ -15,6 +15,4 @@ function LocationMarker() {
       />
     </svg>
   );
-}
-
-export default LocationMarker;
+};

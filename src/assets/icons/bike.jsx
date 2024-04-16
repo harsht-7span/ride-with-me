@@ -1,6 +1,6 @@
 import React from "react";
 
-function Bike() {
+export const Bike = () => {
   return (
     <svg
       width="56"
@@ -115,6 +115,4 @@ function Bike() {
       />
     </svg>
   );
-}
-
-export default Bike;
+};

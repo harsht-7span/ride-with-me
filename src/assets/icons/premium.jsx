@@ -1,6 +1,6 @@
 import React from "react";
 
-function Premium() {
+export const Premium = () => {
   return (
     <svg
       width="89"
@@ -363,6 +363,4 @@ function Premium() {
       />
     </svg>
   );
-}
-
-export default Premium;
+};

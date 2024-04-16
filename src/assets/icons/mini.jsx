@@ -1,6 +1,6 @@
 import React from "react";
 
-function Mini() {
+export const Mini = () => {
   return (
     <svg
       width="70"
@@ -250,6 +250,4 @@ function Mini() {
       />
     </svg>
   );
-}
-
-export default Mini;
+};
