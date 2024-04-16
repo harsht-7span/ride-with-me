@@ -48,7 +48,7 @@ function Login() {
       .catch((res) => {
         toast({
           variant: "destructive",
-          title: "NO USER FOUND!!",
+          title: "NO USER FOUND!!" || res.message,
         });
         navigate("/signup");
       });

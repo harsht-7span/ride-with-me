@@ -76,6 +76,7 @@ function SignUpPage() {
             Please enter your details
           </span>
         </div>
+
         <div className="pt-14">
           <Form {...signupForm}>
             <form onSubmit={signupForm.handleSubmit(onSubmit)}>
