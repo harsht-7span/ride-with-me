@@ -1,13 +1,9 @@
 import { data } from "autoprefixer";
 import * as z from "zod";
 
+export const LocationSchema = z.string().min(1);
+
 export const loginSchema = z.object({
-  // phoneNumber: z
-  //   .string()
-  //   .min(10, { message: "Enter  mobile number" })
-  //   .refine((data) => data.length >= 10, {
-  //     message: "Enter valid mobile number",
-  //   }),
   phoneNumber: z
     .string()
     .min(1, { message: "Enter valid mobile number" })
@@ -32,6 +28,7 @@ export const signupSchema = z.object({
     .refine((data) => data.length >= 10, {
       message: "Enter 10 digit number",
     }),
+
   email: z.string().email({ message: "Enter a valid email address" }),
   role: z.any(),
 });

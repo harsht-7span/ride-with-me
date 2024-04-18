@@ -90,7 +90,6 @@ const MapboxPage = () => {
           const destination =
             route.legs[0].steps.slice(-1)[0].maneuver.location;
 
-          // Do something with originCoords and destinationCoords
           console.log("Origin Coordinates:", origin);
           console.log("Destination Coordinates:", destination);
 

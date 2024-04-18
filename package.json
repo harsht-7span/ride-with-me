@@ -13,12 +13,14 @@
     "@hookform/resolvers": "^3.3.4",
     "@mapbox/mapbox-gl-directions": "^4.3.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.2",
+    "@mapbox/search-js-react": "^1.0.0-beta.19",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "geocoder": "^0.2.3",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.364.0",
     "mapbox-gl": "^3.2.0",
@@ -48,5 +50,16 @@
     "vite": "^5.2.0",
     "vite-plugin-pwa": "^0.19.7",
     "workbox-window": "^7.0.0"
-  }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11"
+  ],
+  "author": "Mapbox",
+  "license": "MIT"
 }
