@@ -13,6 +13,10 @@ import {
 } from "@/assets/icons/index";
 import { Drawer } from "vaul";
 import { VehicleCard } from "./vehicleCard";
+import { LocationSchema } from "@/validation";
+import { useToast } from "./ui/use-toast";
+import { AddressAutofill } from "@mapbox/search-js-react";
+import { useNavigate } from "react-router-dom";
 
 const Test = () => {
   const mapContainerRef = useRef(null);
@@ -25,6 +29,8 @@ const Test = () => {
     parseFloat(localStorage.getItem("routeDistance")) || null
   );
   const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSelectVehicle = (vehicle) => {
     setSelectedVehicle(vehicle);
@@ -39,7 +45,23 @@ const Test = () => {
     });
 
     function successLocation(position) {
-      setupMap([position.coords.longitude, position.coords.latitude]);
+      const { latitude, longitude } = position.coords;
+      // const formattedLocation = `${longitude},${latitude}`;
+      // setOriginInput(formattedLocation);
+
+      fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const address = data.features[0]?.place_name || "Unknown";
+          setOriginInput(address);
+        })
+        .catch((error) => {
+          console.error("Error fetching address:", error);
+          setOriginInput("Unknown");
+        });
+      setupMap([longitude, latitude]);
     }
 
     function errorLocation() {
@@ -60,6 +82,7 @@ const Test = () => {
         // maxBounds: bounds,
       });
 
+      // const searchBox =
       map.addControl(
         new mapboxgl.GeolocateControl({
           positionOptions: {
@@ -108,7 +131,7 @@ const Test = () => {
 
           // Update state and save to localStorage
           setRouteDistance(distanceInKm);
-          localStorage.setItem("routeDistance", distanceInKm);
+          // localStorage.setItem("routeDistance", distanceInKm);
         }
       });
 
@@ -125,11 +148,25 @@ const Test = () => {
     setDestinationInput(event.target.value);
   };
   const handleRouteSearch = () => {
+    const originResult = LocationSchema.safeParse(originInput);
+    const destinationResult = LocationSchema.safeParse(destinationInput);
+
     if (directions && originInput && destinationInput) {
       directions.setOrigin(originInput);
       directions.setDestination(destinationInput);
     }
+    if (!originResult.success || !destinationResult.success) {
+      toast({
+        variant: "destructive",
+        title: "Please enter Address.",
+        duration: 2000,
+      });
+
+      return;
+    }
   };
+
+  const handleCancel = () => {};
 
   const vehicles = [
     {
@@ -156,6 +193,12 @@ const Test = () => {
       icon: <Premium />,
       pricePerKm: 50,
     },
+    {
+      type: "Xl",
+      description: "Spacious sedans, top drivers",
+      icon: <Premium />,
+      pricePerKm: 60,
+    },
   ];
 
   return (
@@ -171,6 +214,7 @@ const Test = () => {
                 className="border-none text-gray-500"
                 type="text"
                 placeholder="Search destination"
+                autoComplete="street-address"
               />
             </div>
             <h2 className="text-xl font-medium py-4">
@@ -199,27 +243,34 @@ const Test = () => {
         <Drawer.Portal>
           <Drawer.Content className="bg-zinc-100  flex items-center flex-col rounded-t-[10px] h-[90%] mt-24 fixed bottom-0 left-0 right-0">
             <div className="overflow-auto">
-              <div className=" bg-white p-10  w-screen gap-4 items-center flex flex-col">
-                <div className="w-7 h-1 bg-blue-500 rounded" />
-                <div className="flex rounded items-center w-full border border-black">
+              <div className=" bg-white p-10 w-screen gap-4 items-center flex flex-col">
+                <div className="w-7 h-1  bg-blue-500 rounded" />
+
+                <div className="flex rounded items-center w-full border map-box-list  border-black">
                   <GreenMarker />
-                  <Input
-                    className="border-none text-gray-500"
-                    type="text"
-                    placeholder="Origin"
-                    value={originInput}
-                    onChange={handleOriginInputChange}
-                  />
+                  <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1MmhweHRmMHRnZTJtcGRvZXd1dzdxaCJ9.Jv2qrYH63lMJsb_JNvixzA">
+                    <Input
+                      // autoComplete="address-level1"
+                      className="border-none text-gray-500 w-full"
+                      type="text"
+                      placeholder="Origin"
+                      value={originInput}
+                      onChange={handleOriginInputChange}
+                    />
+                  </AddressAutofill>
                 </div>
                 <div className="flex rounded items-center w-full border border-black">
                   <RedMarker />
-                  <Input
-                    className="border-none text-gray-500"
-                    type="text"
-                    placeholder="Destination"
-                    value={destinationInput}
-                    onChange={handleDestinationInputChange}
-                  />
+                  <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ">
+                    <Input
+                      autoComplete="street-address"
+                      className="border-none text-gray-500"
+                      type="text"
+                      placeholder="Destination"
+                      value={destinationInput}
+                      onChange={handleDestinationInputChange}
+                    />
+                  </AddressAutofill>
                 </div>
 
                 <Button onClick={handleRouteSearch} className="rounded-[8px]">
@@ -246,9 +297,17 @@ const Test = () => {
                     ))}
                   </div>
                   {selectedVehicle && (
-                    <Button className="m-2 bg-rose rounded">
-                      Book {selectedVehicle.type}
-                    </Button>
+                    <div className="flex flex-col gap-2">
+                      <Button className="m-2 bg-rose rounded">
+                        Book {selectedVehicle.type}
+                      </Button>
+                      <Button
+                        onClick={handleCancel}
+                        className="m-2 bg-white text-black border border-rose rounded"
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   )}
                 </div>
               )}

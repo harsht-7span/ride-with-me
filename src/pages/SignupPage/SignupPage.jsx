@@ -21,6 +21,18 @@ function SignUpPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const numberInputOnWheelPreventChange = (e) => {
+    // Prevent the input value change
+    e.target.blur();
+
+    // Prevent the page/container scrolling
+    e.stopPropagation();
+
+    setTimeout(() => {
+      e.target.focus();
+    }, 0);
+  };
+
   const signupForm = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -115,7 +127,13 @@ function SignUpPage() {
                           <div className="flex items-center px-2 border rounded">
                             <Phone />
                             <Input
+                              onInput={(e) => {
+                                if (e.target.value.length >= 10) {
+                                  e.target.value = e.target.value.slice(0, 10);
+                                }
+                              }}
                               placeholder="phoneNumber"
+                              onWheel={numberInputOnWheelPreventChange}
                               type="number"
                               {...field}
                               className="text-gray-500 border-0 "
