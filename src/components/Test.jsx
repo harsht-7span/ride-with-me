@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Button, Input } from "./ui";
@@ -6,17 +6,18 @@ import {
   Mini,
   Premium,
   Bike,
-  RedMarker,
-  GreenMarker,
   Auto,
   Search,
+  Marker,
 } from "@/assets/icons/index";
 import { Drawer } from "vaul";
 import { VehicleCard } from "./vehicleCard";
-import { LocationSchema } from "@/validation";
+
+import { LocationSchema } from "../validation/index";
 import { useToast } from "./ui/use-toast";
 import { AddressAutofill } from "@mapbox/search-js-react";
-import { useNavigate } from "react-router-dom";
+import Xl from "@/assets/icons/xl";
+
 
 const Test = () => {
   const mapContainerRef = useRef(null);
@@ -28,9 +29,18 @@ const Test = () => {
   const [routeDistance, setRouteDistance] = useState(
     parseFloat(localStorage.getItem("routeDistance")) || null
   );
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
+
+  const [feature, setFeature] = useState();
   const { toast } = useToast();
-  const navigate = useNavigate();
+
+  // const handleRetrieve = useCallback(
+  //   (res) => {
+  //     console.log("runnning");
+  //     const feature = res.features[0];
+  //     setFeature(feature);
+  //   },
+  //   [setFeature]
+  // );
 
   const handleSelectVehicle = (vehicle) => {
     setSelectedVehicle(vehicle);
@@ -46,8 +56,7 @@ const Test = () => {
 
     function successLocation(position) {
       const { latitude, longitude } = position.coords;
-      // const formattedLocation = `${longitude},${latitude}`;
-      // setOriginInput(formattedLocation);
+
 
       fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`
@@ -69,8 +78,8 @@ const Test = () => {
     }
 
     const bounds = [
-      [22.9, 72.4],
-      [23.1, 72.7],
+      [72.4, 22.9],
+      [72.7, 23.1],
     ];
 
     function setupMap(center) {
@@ -79,7 +88,7 @@ const Test = () => {
         style: "mapbox://styles/mapbox/streets-v12",
         center: center,
         zoom: 10,
-        // maxBounds: bounds,
+        maxBounds: bounds,
       });
 
       // const searchBox =
@@ -147,6 +156,7 @@ const Test = () => {
   const handleDestinationInputChange = (event) => {
     setDestinationInput(event.target.value);
   };
+
   const handleRouteSearch = () => {
     const originResult = LocationSchema.safeParse(originInput);
     const destinationResult = LocationSchema.safeParse(destinationInput);
@@ -166,7 +176,10 @@ const Test = () => {
     }
   };
 
-  const handleCancel = () => {};
+  const handleSubmit = useCallback(async (e) => {
+    e.preventDefault();
+  });
+
 
   const vehicles = [
     {
@@ -177,145 +190,134 @@ const Test = () => {
     },
     {
       type: "Auto",
-      description: "Get bikes at your doorstep",
+      description: "Get autos at your doorstep",
       icon: <Auto />,
       pricePerKm: 30,
     },
     {
       type: "Mini",
-      description: "Compfy, sconomical cars",
+      description: "Comfy, sconomical cars ",
       icon: <Mini />,
       pricePerKm: 40,
     },
     {
       type: "Premium",
       description: "Spacious sedans, top drivers",
-      icon: <Premium />,
+      icon: <Xl />,
       pricePerKm: 50,
     },
     {
       type: "Xl",
       description: "Spacious sedans, top drivers",
-      icon: <Premium />,
+
+      icon: <Xl />,
+
       pricePerKm: 60,
     },
   ];
 
   return (
-    <Drawer.Root>
-      <div className="map-wrap h-[100vh] w-full  relative">
-        <div ref={mapContainerRef} className="w-full h-full" />
-        <Drawer.Trigger asChild>
-          <div className="bg-white rounded-t-xl w-full h-fit flex flex-col items-center gap-3 absolute bottom-0 container p-3 ">
-            <div className="w-7 h-1 bg-gray-500 rounded" />
-            <div className="w-full border border-gray-500 flex items-center rounded px-4 gap-1">
-              <Search />
-              <Input
-                className="border-none text-gray-500"
-                type="text"
-                placeholder="Search destination"
-                autoComplete="street-address"
-              />
-            </div>
-            <h2 className="text-xl font-medium py-4">
-              Where would you like to go?
-            </h2>
-            {/*
-            <div className="w-full border border-gray-500 flex items-center rounded px-4 gap-1">
-              <LocationMarker />
-              <Input
-                className="border-none"
-                type="text"
-                placeholder="Nearest location suggestion 2"
-              />
-            </div>
-            <div className="w-full border border-gray-500 flex items-center rounded px-4 gap-1">
-              <LocationMarker />
-              <Input
-                className="border-none"
-                type="text"
-                placeholder="Nearest location suggestion 2"
-              />
-            </div> */}
-          </div>
-        </Drawer.Trigger>
-
-        <Drawer.Portal>
-          <Drawer.Content className="bg-zinc-100  flex items-center flex-col rounded-t-[10px] h-[90%] mt-24 fixed bottom-0 left-0 right-0">
-            <div className="overflow-auto">
-              <div className=" bg-white p-10 w-screen gap-4 items-center flex flex-col">
-                <div className="w-7 h-1  bg-blue-500 rounded" />
-
-                <div className="flex rounded items-center w-full border map-box-list  border-black">
-                  <GreenMarker />
-                  <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1MmhweHRmMHRnZTJtcGRvZXd1dzdxaCJ9.Jv2qrYH63lMJsb_JNvixzA">
-                    <Input
-                      // autoComplete="address-level1"
-                      className="border-none text-gray-500 w-full"
-                      type="text"
-                      placeholder="Origin"
-                      value={originInput}
-                      onChange={handleOriginInputChange}
-                    />
-                  </AddressAutofill>
-                </div>
-                <div className="flex rounded items-center w-full border border-black">
-                  <RedMarker />
-                  <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ">
-                    <Input
-                      autoComplete="street-address"
-                      className="border-none text-gray-500"
-                      type="text"
-                      placeholder="Destination"
-                      value={destinationInput}
-                      onChange={handleDestinationInputChange}
-                    />
-                  </AddressAutofill>
-                </div>
-
-                <Button onClick={handleRouteSearch} className="rounded-[8px]">
-                  Confirm Location
-                </Button>
-
-                {routeDistance !== null && (
-                  <p className="text-center mt-2">
-                    Route Distance: {routeDistance.toFixed(2)} km
-                  </p>
-                )}
+    <>
+      <Drawer.Root>
+        <div className="map-wrap h-[100vh] w-full  relative">
+          <div ref={mapContainerRef} className="w-full h-full" />
+          <Drawer.Trigger asChild>
+            <div className="bg-white rounded-t-xl inset-x-0 w-full h-fit flex flex-col items-center gap-3 absolute bottom-0 p-3 ">
+              <div className="w-7 h-1 bg-gray-500 rounded" />
+              <div className="w-full border border-gray-500 flex items-center rounded px-4 gap-1">
+                <Search />
+                <Input
+                  className="border-none text-gray-500"
+                  type="text"
+                  placeholder="Search destination"
+                  autoComplete="street-address"
+                />
               </div>
+              <h2 className="text-xl font-medium py-4">
+                Where would you like to go?
+              </h2>
+            </div>
+          </Drawer.Trigger>
 
-              {routeDistance !== null && (
-                <div className="flex flex-col justify-center container">
-                  <div className="bookingCategory flex flex-col gap-5 ">
-                    {vehicles.map((vehicle, index) => (
-                      <VehicleCard
-                        key={index}
-                        vehicle={vehicle}
-                        routeDistance={routeDistance}
-                        onSelect={handleSelectVehicle}
-                      />
-                    ))}
+          <Drawer.Portal>
+            <Drawer.Content className="bg-zinc-100 flex items-center flex-col rounded-t-[10px] h-[90%] mt-24 fixed bottom-0 left-0 right-0">
+              <form onSubmit={handleSubmit}>
+                <div className="overflow-auto">
+                  <div className=" bg-white p-10 w-screen gap-4 items-center flex flex-col">
+                    <div className="w-7 h-1  bg-blue-500 rounded" />
+                    <div className="flex rounded items-center w-full border map-box-list  border-black">
+                      <Marker className="flex-none px-1 w-8 h-8  text-green-500" />
+
+                      <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1MmhweHRmMHRnZTJtcGRvZXd1dzdxaCJ9.Jv2qrYH63lMJsb_JNvixzA">
+                        <Input
+                          autoComplete="street-address"
+                          className="border-none text-gray-500 flex-grow"
+                          type="text"
+                          placeholder="Origin"
+                          value={originInput}
+                          onChange={handleOriginInputChange}
+                        />
+                      </AddressAutofill>
+                    </div>
+                    <div className="flex rounded items-center w-full map-box-list border border-black">
+                      <Marker className="flex-none px-1 w-8 h-8 text-red-500" />
+
+
+                      <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ">
+                        <Input
+                          autoComplete="street-address"
+                          className="border-none text-gray-500"
+                          type="text"
+                          placeholder="Destination"
+                          value={destinationInput}
+                          onChange={handleDestinationInputChange}
+                        />
+                      </AddressAutofill>
+                    </div>
+
+                    <Button
+                      onClick={handleRouteSearch}
+                      className="rounded-[8px]"
+                    >
+                      Confirm Location
+                    </Button>
+
+                    {routeDistance !== null && (
+                      <p className="text-center mt-2">
+                        Route Distance: {routeDistance.toFixed(2)}km
+                      </p>
+                    )}
                   </div>
-                  {selectedVehicle && (
-                    <div className="flex flex-col gap-2">
-                      <Button className="m-2 bg-rose rounded">
-                        Book {selectedVehicle.type}
-                      </Button>
-                      <Button
-                        onClick={handleCancel}
-                        className="m-2 bg-white text-black border border-rose rounded"
-                      >
-                        Cancel
-                      </Button>
+
+                  {routeDistance !== null && (
+                    <div className="bg-white flex flex-col  justify-start py-10 h-96 container overflow-scroll">
+                      <div className="bookingCategory flex flex-col gap-5 ">
+                        {vehicles.map((vehicle, index) => (
+                          <VehicleCard
+                            key={index}
+                            vehicle={vehicle}
+                            routeDistance={routeDistance}
+                            onSelect={handleSelectVehicle}
+                          />
+                        ))}
+                      </div>
+                      {selectedVehicle && (
+                        <div className="flex flex-col gap-2">
+                          <Button className="m-2 bg-rose rounded">
+                            Book {selectedVehicle.type}
+                          </Button>
+                        </div>
+                      )}
+
                     </div>
                   )}
                 </div>
-              )}
-            </div>
-          </Drawer.Content>
-        </Drawer.Portal>
-      </div>
-    </Drawer.Root>
+              </form>
+            </Drawer.Content>
+          </Drawer.Portal>
+        </div>
+      </Drawer.Root>
+    </>
   );
 };
 

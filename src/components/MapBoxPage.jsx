@@ -3,14 +3,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Button, Input } from "./ui";
 
-import {
-  Mini,
-  Premium,
-  Bike,
-  RedMarker,
-  GreenMarker,
-  Auto,
-} from "@/assets/icons/index";
+import { Mini, Premium, Bike, Auto } from "@/assets/icons/index";
 import { Drawer } from "vaul";
 
 const MapboxPage = () => {
@@ -131,7 +124,7 @@ const MapboxPage = () => {
         <div ref={mapContainerRef} className="w-full h-full" />
         <div className="absolute  bg-white p-10 bottom-0  w-screen gap-4 items-center flex flex-col">
           <div className="flex rounded items-center w-full border border-black">
-            <GreenMarker />
+            {/* <GreenMarker /> */}
             <Input
               className="border-none"
               type="text"
@@ -141,7 +134,7 @@ const MapboxPage = () => {
             />
           </div>
           <div className="flex rounded items-center w-full border border-black">
-            <RedMarker />
+            {/* <RedMarker /> */}
             <Input
               className="border-none"
               type="text"

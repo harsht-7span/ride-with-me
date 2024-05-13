@@ -33,6 +33,12 @@
   display: none;
 }
 
+
+.map-box-list > mapbox-address-autofill {
+  max-width: 95%;
+  width: 100%;
+}
+
 mapbox-search-listbox
   > div
   > div
@@ -42,10 +48,24 @@ mapbox-search-listbox
   background-color: #ccc !important;
 }
 
+
+mapbox-search-listbox {
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: -10px;
+  z-index: 999 !important;
+}
+
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
+}
+
+.map-box-list > mapbox-address-autofill {
+  max-width: 80%;
+  width: 100%;
 }
