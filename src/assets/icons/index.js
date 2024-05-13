@@ -10,3 +10,4 @@ export * from "@/assets/icons/tick";
 export * from "@/assets/icons/user";
 export * from "@/assets/icons/locationMarker";
 export * from "@/assets/icons/Marker";
+export * from "@/assets/icons/xl";

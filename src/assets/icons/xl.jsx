@@ -1,6 +1,4 @@
-import React from "react";
-
-function Xl() {
+export const Xl = () => {
   return (
     <svg
       width="68"
@@ -358,6 +356,4 @@ function Xl() {
       />
     </svg>
   );
-}
-
-export default Xl;
+};
