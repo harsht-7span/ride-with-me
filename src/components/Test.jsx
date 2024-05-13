@@ -33,15 +33,6 @@ const Test = () => {
   const [feature, setFeature] = useState();
   const { toast } = useToast();
 
-  // const handleRetrieve = useCallback(
-  //   (res) => {
-  //     console.log("runnning");
-  //     const feature = res.features[0];
-  //     setFeature(feature);
-  //   },
-  //   [setFeature]
-  // );
-
   const handleSelectVehicle = (vehicle) => {
     setSelectedVehicle(vehicle);
   };
@@ -290,7 +281,7 @@ const Test = () => {
                   </div>
 
                   {routeDistance !== null && (
-                    <div className="bg-white flex flex-col  justify-start py-10 h-96 container overflow-scroll">
+                    <div className="bg-white flex flex-col  justify-start pt-10 pb-32 h-96 container overflow-scroll">
                       <div className="bookingCategory flex flex-col gap-5 ">
                         {vehicles.map((vehicle, index) => (
                           <VehicleCard
