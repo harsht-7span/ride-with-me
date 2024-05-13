@@ -47,6 +47,16 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      process: "process/browser",
+      buffer: "buffer",
+      crypto: "crypto-browserify",
+      stream: "stream-browserify",
+      assert: "assert",
+      http: "stream-http",
+      https: "https-browserify",
+      os: "os-browserify",
+      url: "url",
+      util: "util",
       "@": path.resolve(__dirname, "./src"),
     },
   },

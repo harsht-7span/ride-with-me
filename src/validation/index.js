@@ -28,6 +28,7 @@ export const signupSchema = z.object({
     .refine((data) => data.length >= 10, {
       message: "Enter 10 digit number",
     }),
+
   email: z.string().email({ message: "Enter a valid email address" }),
   role: z.any(),
 });
