@@ -5,14 +5,16 @@ export const VehicleCard = ({ vehicle, routeDistance, onSelect }) => {
   return (
     <div
       onClick={() => onSelect(vehicle)}
-      className={`vehicle grid grid-cols-3 justify-items-center p-2 border-2 hover:border-rose rounded-xl `}
+      className={`vehicle grid grid-cols-3 justify-between items-center p-2 border-2 hover:border-rose rounded-xl `}
     >
-      {icon}
+      <div className="mx-auto">{icon}</div>
       <div>
-        <h2>{type}</h2>
+        <h2 className="text-sm font-medium ">{type}</h2>
         <p>{description}</p>
       </div>
-      <h3>₹{price}</h3>
+      <div className="mx-auto">
+        <h3>₹{price}</h3>
+      </div>
     </div>
   );
 };

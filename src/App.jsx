@@ -7,7 +7,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import { Outlet, Route, Router, Routes } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import { Toaster } from "./components/ui/toaster";
-import DistanceMatrix from "./components/DistanceMatrix";
+import AutofillCheckoutDemo from "./components/autofill";
+// import DistanceMatrix from "./components/DistanceMatrix";
 
 function Layout() {
   return <Outlet />;
@@ -28,6 +29,8 @@ function App() {
             element={<RiderRegistrationPage />}
           />
           {/* <Route path="/distance" element={<DistanceMatrix />} /> */}
+
+          <Route path="/auto" element={<AutofillCheckoutDemo />} />
           <Route path="/homepage" element={<HomePage />} />
         </Route>
       </Routes>
