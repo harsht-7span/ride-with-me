@@ -11,11 +11,24 @@
   display: none;
 }
 
-/* .mapboxgl-ctrl {
+.map-wrap .mapboxgl-ctrl-geolocate {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  top: auto;
+  right: 0px;
+  background-color: white;
+  border-radius: 50%;
+  background-image: url("./assets/currentLocation.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10;
+  top: 10%;
+  right: 2%;
+}
+.map-wrap .mapboxgl-ctrl-directions {
   display: none;
 }
-*/
-.mapboxgl-ctrl-bottom-left,
 .mapboxgl-ctrl-bottom-right {
   display: none;
 }

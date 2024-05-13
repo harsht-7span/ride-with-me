@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { Button, Input } from "./ui";
 
@@ -8,24 +7,44 @@ import { Mini, Premium, Bike, Auto } from "@/assets/icons/index";
 import { Drawer } from "vaul";
 
 const MapboxPage = () => {
+  const mapContainerRef = useRef(null);
+  const [directionsRoute, setDirectionsRoute] = useState(null);
+  const [originInput, setOriginInput] = useState("");
+  const [destinationInput, setDestinationInput] = useState("");
+  const [map, setMap] = useState(null);
+  const [directions, setDirections] = useState(null);
+  const [routeDistance, setRouteDistance] = useState(
+    parseFloat(localStorage.getItem("routeDistance")) || null
+  );
+
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ";
 
-    const successLocation = (position) => {
+    navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
+      enableHighAccuracy: true,
+    });
+
+    function successLocation(position) {
       setupMap([position.coords.longitude, position.coords.latitude]);
-    };
+    }
 
-    const errorLocation = () => {
-      setupMap([72.49, 22.98]);
-    };
+    function errorLocation() {
+      setupMap([-2.24, 53.48]);
+    }
 
-    const setupMap = (center) => {
+    const bounds = [
+      [22.9, 72.4],
+      [23.1, 72.7],
+    ];
+
+    function setupMap(center) {
       const map = new mapboxgl.Map({
-        container: "map",
-        style: "mapbox://styles/mapbox/streets-v11",
+        container: mapContainerRef.current,
+        style: "mapbox://styles/mapbox/streets-v12",
         center: center,
         zoom: 10,
+        // maxBounds: bounds,
       });
 
       map.addControl(
@@ -38,96 +57,52 @@ const MapboxPage = () => {
         })
       );
 
-      const nav = new mapboxgl.NavigationControl();
-      map.addControl(nav);
-      const coloradoJSON = {
-        type: "circle",
-        "circle-radius": {
-          base: 1.75,
-          stops: [
-            [12, 2],
-            [22, 180],
-          ],
-        },
-      };
-      map.on("load", () => {
-        map.addSource("ethnicity", {
-          type: "vector",
-          url: "mapbox://examples.8fgz4egr",
-        });
-        map.addLayer(
-          {
-            id: "population",
-            type: "circle",
-            source: "ethnicity",
-            "source-layer": "sf2010",
-            paint: {
-              // Make circles larger as the user zooms from z12 to z22.
-              "circle-radius": {
-                base: 1.75,
-                stops: [
-                  [12, 2],
-                  [22, 180],
-                ],
-              },
-              // Color circles by ethnicity, using a `match` expression.
-              "circle-color": [
-                "match",
-                ["get", "ethnicity"],
-                "White",
-                "#fbb03b",
-                "Black",
-                "#223b53",
-                "Hispanic",
-                "#e55e5e",
-                "Asian",
-                "#3bb2d0",
-                /* other */ "#ccc",
-              ],
-            },
-          },
-          // Place polygons under labels, roads and buildings.
-          "aeroway-polygon"
-        );
-      });
-
-      map.addLayer({
-        id: "polygon",
-        type: "fill",
-        source: "polygon",
-        layout: {},
-        paint: {
-          "fill-color": "blue",
-          "fill-opacity": 0.6,
-        },
-      });
-
-      var directions = new MapboxDirections({
+      const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
         unit: "metric",
-        profile: "mapbox/driving-traffic",
+        profile: "mapbox/driving",
+        controls: {
+          inputs: {
+            destinationInput,
+            originInput,
+          },
+        },
       });
 
-      map.addControl(directions, "top-left");
+      const nav = new mapboxgl.NavigationControl();
+      map.addControl(nav);
 
-      directions.on("route", function (e) {
-        const origin = e.route[0].legs[0].steps[0].maneuver.location;
+      map.addControl(directions, "top-right");
 
-        const destination =
-          e.route[0].legs[0].steps.slice(-1)[0].maneuver.location;
+      directions.on("route", (e) => {
+        const route = e.route && e.route[0];
+        if (route) {
+          setDirectionsRoute(route);
 
-        console.log("origin", origin);
-        console.log("destination", destination);
+          const origin = route.legs[0].steps[0].maneuver.location;
+          const destination =
+            route.legs[0].steps.slice(-1)[0].maneuver.location;
+
+          // Do something with originCoords and destinationCoords
+          console.log("Origin Coordinates:", origin);
+          console.log("Destination Coordinates:", destination);
+
+          // Extract distance from the route in meters
+          const distanceInMeters = route.distance;
+
+          // Convert distance to kilometers
+          const distanceInKm = distanceInMeters / 1000;
+
+          // Update state and save to localStorage
+          setRouteDistance(distanceInKm);
+          localStorage.setItem("routeDistance", distanceInKm);
+        }
       });
-    };
 
-    navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
-      enableHighAccuracy: true,
-    });
-
-    return () => {
-      // Clean up resources
-    };
+      setMap(map);
+      setDirections(directions);
+    }
+    return () => map.remove();
   }, []);
 
   const handleOriginInputChange = (event) => {

@@ -27,12 +27,12 @@ export default defineConfig({
         theme_color: "#ffffff",
         icons: [
           {
-            src: "pwa-maskable-192x192.png",
+            src: "./pwa-maskable-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "Vehicle256.png",
+            src: "./Vehicle256.png",
             sizes: "256x256",
             type: "image/png",
           },

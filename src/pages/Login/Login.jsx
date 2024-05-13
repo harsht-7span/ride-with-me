@@ -48,7 +48,7 @@ function Login() {
       .catch((res) => {
         toast({
           variant: "destructive",
-          title: res.message || "NO USER FOUND!!",
+          title: "NO USER FOUND!!" || res.message,
         });
         navigate("/signup");
       });
@@ -67,7 +67,7 @@ function Login() {
         </div>
 
         <h1 className="text-2xl font-semibold text-center">
-          Welcome to Ride With Me!
+          Welcome to Easy Go!
         </h1>
 
         <Form {...loginForm}>
@@ -86,8 +86,13 @@ function Login() {
                       <div className="flex items-center px-2 border rounded">
                         <Phone />
                         <Input
+                          onInput={(e) => {
+                            if (e.target.value.length >= 10) {
+                              e.target.value = e.target.value.slice(0, 10);
+                            }
+                          }}
                           type="number"
-                          placeholder="phoneNumber"
+                          placeholder="mobile"
                           {...field}
                           className="text-gray-500 border-0"
                         />
@@ -99,19 +104,19 @@ function Login() {
               }}
             />
             <Button type="submit" className="w-full text-sm font-bold rounded">
-              Sign in
+              Sign In
             </Button>
           </form>
         </Form>
       </div>
-      <div>
+      {/* <div>
         <p className="text-center text-sm">
           Don’t have an account?{" "}
           <Link to="/signup" className="text-rose">
-            Sign up
+            Sign Up
           </Link>
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }
