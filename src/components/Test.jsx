@@ -12,7 +12,7 @@ import {
 } from "@/assets/icons/index";
 import { Drawer } from "vaul";
 import { VehicleCard } from "./vehicleCard";
-import { LocationSchema } from "@/validation";
+import { LocationSchema } from "../validation/index";
 import { useToast } from "./ui/use-toast";
 import { AddressAutofill } from "@mapbox/search-js-react";
 import Xl from "@/assets/icons/xl";
