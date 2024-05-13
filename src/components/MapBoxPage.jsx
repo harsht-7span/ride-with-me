@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
+import { Button, Input } from "./ui";
+
+import { Mini, Premium, Bike, Auto } from "@/assets/icons/index";
+import { Drawer } from "vaul";
 
 const MapboxPage = () => {
   useEffect(() => {
@@ -127,7 +130,103 @@ const MapboxPage = () => {
     };
   }, []);
 
-  return <div id="map" style={{ width: "100%", height: "100vh" }}></div>;
+  const handleOriginInputChange = (event) => {
+    setOriginInput(event.target.value);
+  };
+
+  const handleDestinationInputChange = (event) => {
+    setDestinationInput(event.target.value);
+  };
+  const handleRouteSearch = () => {
+    if (directions && originInput && destinationInput) {
+      directions.setOrigin(originInput);
+      directions.setDestination(destinationInput);
+    }
+  };
+
+  return (
+    <div className="map-wrap h-[100vh] w-full relative">
+      <Drawer.Root shouldScaleBackground>
+        <div ref={mapContainerRef} className="w-full h-full" />
+        <div className="absolute  bg-white p-10 bottom-0  w-screen gap-4 items-center flex flex-col">
+          <div className="flex rounded items-center w-full border border-black">
+            {/* <GreenMarker /> */}
+            <Input
+              className="border-none"
+              type="text"
+              placeholder="Origin"
+              value={originInput}
+              onChange={handleOriginInputChange}
+            />
+          </div>
+          <div className="flex rounded items-center w-full border border-black">
+            {/* <RedMarker /> */}
+            <Input
+              className="border-none"
+              type="text"
+              placeholder="Destination"
+              value={destinationInput}
+              onChange={handleDestinationInputChange}
+            />
+          </div>
+          <Drawer.Trigger asChild>
+            <Button onClick={handleRouteSearch} className="rounded-[8px]">
+              Confirm Location
+            </Button>
+          </Drawer.Trigger>
+
+          {routeDistance !== null && (
+            <p className="text-center mt-2">
+              Route Distance: {routeDistance.toFixed(2)} km
+            </p>
+          )}
+        </div>
+        <Drawer.Portal>
+          <Drawer.Content className="bg-white flex flex-col rounded-t-[10px] h-[96%] mt-24 fixed bottom-0 left-0 right-0">
+            {routeDistance !== null && (
+              <div className="flex flex-col justify-center">
+                <div className="bookingCategory flex flex-col gap-5 ">
+                  <div className="bike grid grid-cols-3  justify-items-center ">
+                    <Bike />
+                    <div>
+                      <h2>Bike</h2>
+                      <p>Get autos at your doorstep</p>
+                    </div>
+                    <h3>₹{routeDistance.toFixed() * 20}</h3>
+                  </div>
+                  <div className="auto  grid grid-cols-3  justify-items-center">
+                    <Auto />
+                    <div>
+                      <h2>Auto</h2>
+                      <p>Get autos at your doorstep</p>
+                    </div>
+                    <h3>₹{routeDistance.toFixed() * 30}</h3>
+                  </div>
+                  <div className="mini  grid grid-cols-3  justify-items-center">
+                    <Mini />
+                    <div>
+                      <h2>Mini</h2>
+                      <p>Compfy, sconomical cars</p>
+                    </div>
+                    <h3>₹{routeDistance.toFixed() * 40}</h3>
+                  </div>
+                  <div className="premium  grid grid-cols-3  justify-items-center ">
+                    <Premium />
+                    <div>
+                      <h2>Premium</h2>
+                      <p>Spacious sedans, top drivers</p>
+                    </div>
+                    <h3>₹{routeDistance.toFixed() * 50}</h3>
+                  </div>
+                </div>
+                <Button className="m-2 bg-rose rounded">Book Auto</Button>
+              </div>
+            )}
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
+    </div>
+  );
 };
 
 export default MapboxPage;
