@@ -12,10 +12,12 @@ import {
 } from "@/assets/icons/index";
 import { Drawer } from "vaul";
 import { VehicleCard } from "./vehicleCard";
+
 import { LocationSchema } from "../validation/index";
 import { useToast } from "./ui/use-toast";
 import { AddressAutofill } from "@mapbox/search-js-react";
 import Xl from "@/assets/icons/xl";
+
 
 const Test = () => {
   const mapContainerRef = useRef(null);
@@ -27,7 +29,7 @@ const Test = () => {
   const [routeDistance, setRouteDistance] = useState(
     parseFloat(localStorage.getItem("routeDistance")) || null
   );
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
+
   const [feature, setFeature] = useState();
   const { toast } = useToast();
 
@@ -45,6 +47,7 @@ const Test = () => {
 
     function successLocation(position) {
       const { latitude, longitude } = position.coords;
+
 
       fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`
@@ -168,6 +171,7 @@ const Test = () => {
     e.preventDefault();
   });
 
+
   const vehicles = [
     {
       type: "Bike",
@@ -196,7 +200,9 @@ const Test = () => {
     {
       type: "Xl",
       description: "Spacious sedans, top drivers",
+
       icon: <Xl />,
+
       pricePerKm: 60,
     },
   ];
@@ -247,6 +253,7 @@ const Test = () => {
                     <div className="flex rounded items-center w-full map-box-list border border-black">
                       <Marker className="flex-none px-1 w-8 h-8 text-red-500" />
 
+
                       <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ">
                         <Input
                           autoComplete="street-address"
@@ -292,6 +299,7 @@ const Test = () => {
                           </Button>
                         </div>
                       )}
+
                     </div>
                   )}
                 </div>

@@ -22,8 +22,8 @@
   background-image: url("./assets/currentLocation.svg");
   background-repeat: no-repeat;
   background-position: center;
-  z-index: 10;
-  top: 10%;
+  z-index: 1;
+  top: 4%;
   right: 2%;
 }
 .map-wrap .mapboxgl-ctrl-directions {
@@ -32,6 +32,7 @@
 .mapboxgl-ctrl-bottom-right {
   display: none;
 }
+
 
 .map-box-list > mapbox-address-autofill {
   max-width: 95%;
@@ -47,6 +48,7 @@ mapbox-search-listbox
   background-color: #ccc !important;
 }
 
+
 mapbox-search-listbox {
   width: 100%;
   display: block;
@@ -54,6 +56,7 @@ mapbox-search-listbox {
   top: -10px;
   z-index: 999 !important;
 }
+
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {

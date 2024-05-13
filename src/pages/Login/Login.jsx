@@ -16,10 +16,23 @@ import Phone from "@/assets/icons/phone";
 import { Link, useNavigate } from "react-router-dom";
 import { logIn } from "@/api/auth";
 import { useToast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
 
 function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const numberInputOnWheelPreventChange = (e) => {
+    // Prevent the input value change
+    e.target.blur();
+
+    // Prevent the page/container scrolling
+    e.stopPropagation();
+
+    setTimeout(() => {
+      e.target.focus();
+    }, 0);
+  };
 
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
@@ -42,6 +55,7 @@ function Login() {
         toast({
           variant: "success",
           title: res.data.message,
+          isClosable: true,
         });
         navigate("/verify", { state: phoneNumber });
       })
@@ -49,6 +63,7 @@ function Login() {
         toast({
           variant: "destructive",
           title: "NO USER FOUND!!" || res.message,
+          isClosable: true,
         });
         navigate("/signup");
       });
@@ -92,6 +107,7 @@ function Login() {
                             }
                           }}
                           type="number"
+                          onWheel={numberInputOnWheelPreventChange}
                           placeholder="mobile"
                           {...field}
                           className="text-gray-500 border-0"
