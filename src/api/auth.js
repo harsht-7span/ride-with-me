@@ -1,11 +1,10 @@
-import axios from "axios";
 import axiosClient from "./index.js";
 
 export const logIn = async (data) => {
   let payload = {
     ...data,
   };
-  return axiosClient.post("user/send-login-otp", payload);
+  return axiosClient.post("user/login", payload);
 };
 
 export const signUp = async (data) => {
@@ -19,5 +18,5 @@ export const verifyOtp = async (data) => {
   let payload = {
     ...data,
   };
-  return axiosClient.post("user/verify-otp", payload);
+  return axiosClient.post("user/verify", payload);
 };
