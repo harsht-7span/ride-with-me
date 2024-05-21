@@ -1,5 +1,5 @@
 import React from "react";
-import { Rikshaw, Location, Verticleline } from "@/icons";
+// import { Rikshaw, Location, Verticleline } from "@/icons";
 
 // import component 👇
 import Drawer from "react-modern-drawer";
@@ -15,7 +15,7 @@ const FetchDetails = () => {
 
   return (
     <>
-      <button onClick={toggleDrawer}>Show</button>
+      {/* <button onClick={toggleDrawer}>Show</button> */}
       <Drawer
         open={isOpen}
         onClose={toggleDrawer}
@@ -45,7 +45,7 @@ const FetchDetails = () => {
             </div>
           </div>
           <div className="flex justify-between">
-            <Rikshaw className="h-[72px] -mt-4 w-[72px] " />
+            {/* <Rikshaw className="h-[72px] -mt-4 w-[72px] " /> */}
             <div>
               <p className="font-medium text-sm leading-5">Auto</p>
               <span className="font-normal text-[10px] leading-4">
@@ -58,14 +58,14 @@ const FetchDetails = () => {
           <div className="mt-4">
             <h1 className="font-medium text-base leading-6">Ride Details</h1>
             <div className="flex flex-row mt-2">
-              <Location className="h-5 w-5" />
+              {/* <Location className="h-5 w-5" /> */}
               <p className=" font-normal text-sm text-[#A2A2A2] leading-5">
                 Marengo CIMS Hospital
               </p>
             </div>
-            <Verticleline className="m-1 left-1 relative" />
+            {/* <Verticleline className="m-1 left-1 relative" /> */}
             <div className="flex flex-row mt-2">
-              <Location className="h-5 w-5" />
+              {/* <Location className="h-5 w-5" /> */}
               <p className=" font-normal text-sm text-[#A2A2A2] leading-5">
                 Marengo CIMS Hospital
               </p>
