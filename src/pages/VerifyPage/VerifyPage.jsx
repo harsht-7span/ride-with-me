@@ -24,6 +24,7 @@ function VerifyPage() {
   const { toast } = useToast();
 
   const phoneNumber = location.state;
+  console.log(phoneNumber);
 
   const otpForm = useForm({
     resolver: zodResolver(otpSchema),
