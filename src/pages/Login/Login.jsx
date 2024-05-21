@@ -66,7 +66,8 @@ function Login() {
           title: "NO USER FOUND!!" || res.message,
           isClosable: true,
         });
-        navigate("/signup");
+        // navigate("/signup");
+        navigate("/verify");
       });
 
     loginForm.reset();

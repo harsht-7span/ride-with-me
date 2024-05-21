@@ -37,17 +37,6 @@ function App() {
         </Route>
       </Routes>
       <Toaster />
-
-      {/* <Login /> */}
-      {/* <h1 className="">Ride with Me</h1> */}
-      {/* <ResetPage /> */}
-      {/* <VerifyPage /> */}
-      {/* <SuccessfullPage /> */}
-      {/* <SignupPage /> */}
-      {/* <RiderRegistrationPage /> */}
-      {/* <MapboxPage /> */}
-      {/* <HomePage /> */}
-      {/* <Test /> */}
     </>
   );
 }

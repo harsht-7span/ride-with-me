@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  pointer-events: all !important;
+}
+
 #root {
   margin: 0;
   padding: 0;
@@ -12,13 +17,14 @@
 }
 
 .map-wrap .mapboxgl-ctrl-geolocate {
+  padding: 10px;
   height: 30px;
   width: 30px;
   position: absolute;
   top: auto;
   right: 0px;
   background-color: white;
-  border-radius: 50%;
+  border-radius: 10%;
   background-image: url("./assets/currentLocation.svg");
   background-repeat: no-repeat;
   background-position: center;
@@ -26,6 +32,7 @@
   top: 4%;
   right: 2%;
 }
+
 .map-wrap .mapboxgl-ctrl-directions {
   display: none;
 }
@@ -33,13 +40,12 @@
   display: none;
 }
 
-
-.map-box-list > mapbox-address-autofill {
+/* .map-box-list > mapbox-address-autofill {
   max-width: 95%;
   width: 100%;
-}
+} */
 
-mapbox-search-listbox
+/* mapbox-search-listbox
   > div
   > div
   + div
@@ -48,14 +54,13 @@ mapbox-search-listbox
   background-color: #ccc !important;
 }
 
-
 mapbox-search-listbox {
   width: 100%;
   display: block;
   position: absolute;
   top: -10px;
   z-index: 999 !important;
-}
+} */
 
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
@@ -66,6 +71,6 @@ mapbox-search-listbox {
 }
 
 .map-box-list > mapbox-address-autofill {
-  max-width: 80%;
+  max-width: 100%;
   width: 100%;
 }
