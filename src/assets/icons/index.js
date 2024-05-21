@@ -11,3 +11,4 @@ export * from "@/assets/icons/user";
 export * from "@/assets/icons/locationMarker";
 export * from "@/assets/icons/Marker";
 export * from "@/assets/icons/xl";
+export * from "@/assets/icons/arrow";
