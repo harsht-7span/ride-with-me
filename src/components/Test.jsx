@@ -33,7 +33,6 @@ const Test = () => {
   const [showConfirmButton, setShowConfirmButton] = useState(false);
 
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const handleSelectVehicle = (vehicle) => {
     setSelectedVehicle(vehicle);
@@ -85,15 +84,31 @@ const Test = () => {
         maxBounds: bounds,
       });
 
-      map.addControl(
-        new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true,
-          },
-          trackUserLocation: true,
-          showUserHeading: true,
-        })
-      );
+      const geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showAccuracyCircle: true,
+        showUserHeading: true,
+      });
+
+      map.addControl(geolocate);
+      map.on("load", () => {
+        geolocate.trigger();
+      });
+
+      // map.addControl(
+      //   new mapboxgl.GeolocateControl({
+      //     positionOptions: {
+      //       enableHighAccuracy: true,
+      //     },
+      //     trackUserLocation: true,
+      //     showAccuracyCircle: true,
+      //     showUserLocation: true,
+      //     showUserHeading: true,
+      //   })
+      // );
 
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
@@ -192,7 +207,7 @@ const Test = () => {
         snapPoints={[0.6, 1]}
         activeSnapPoint={snap}
         setActiveSnapPoint={setSnap}
-        dismissible={false}
+        // dismissible={false}
         open={open}
       >
         <div className="map-wrap h-[100vh] w-full relative">
@@ -205,7 +220,7 @@ const Test = () => {
           </Drawer.Trigger>
 
           <Drawer.Portal>
-            <Drawer.Content className="bg-white flex items-center flex-col rounded-t-[10px] h-full mt-24 fixed bottom-0 left-0 right-0">
+            <Drawer.Content className="z-10 bg-white flex items-center flex-col rounded-t-[10px] h-full mt-24 fixed bottom-0 left-0 right-0">
               {view === "form" ? (
                 <form onSubmit={handleSubmit}>
                   <div className="overflow-auto">
