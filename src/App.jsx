@@ -8,10 +8,6 @@ import { Outlet, Route, Router, Routes } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import { Toaster } from "./components/ui/toaster";
 
-import AutofillCheckoutDemo from "./components/autofill";
-
-// import DistanceMatrix from "./components/DistanceMatrix";
-
 function Layout() {
   return <Outlet />;
 }
@@ -32,7 +28,6 @@ function App() {
           />
           {/* <Route path="/distance" element={<DistanceMatrix />} /> */}
 
-          <Route path="/auto" element={<AutofillCheckoutDemo />} />
           <Route path="/homepage" element={<HomePage />} />
         </Route>
       </Routes>

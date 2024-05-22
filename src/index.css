@@ -32,6 +32,13 @@ body {
   top: 4%;
   right: 2%;
 }
+/* 
+@media only screen and (max-width: 390px) {
+  /* overflow-auto h-96 */
+/* .bookingCategory {
+    overflow: auto;
+    height: 20rem;
+  } */
 
 .map-wrap .mapboxgl-ctrl-directions {
   display: none;

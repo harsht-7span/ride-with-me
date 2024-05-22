@@ -6,8 +6,6 @@ import { Drawer } from "vaul";
 import Test from "@/components/Test";
 import RiderDetails from "../RiderDetails/RiderDetails";
 
-import AutofillCheckoutDemo from "@/components/autofill";
-
 function HomePage() {
   return (
     <>

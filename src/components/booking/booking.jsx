@@ -17,8 +17,6 @@ const Booking = ({
     ? routeDistance.toFixed() * vehicle.pricePerKm
     : 0;
 
-  // console.log(vehicle);
-
   useEffect(() => {
     // const payload = {
     //   pickupLocation: originString,
