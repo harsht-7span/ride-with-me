@@ -5,8 +5,6 @@ import { Search } from "@/assets/icons";
 import { Drawer } from "vaul";
 import Test from "@/components/Test";
 
-import AutofillCheckoutDemo from "@/components/autofill";
-
 function HomePage() {
   return (
     <>
@@ -14,6 +12,7 @@ function HomePage() {
         <div id="map">
           {/* <MapboxPage /> */}
           <Test />
+          {/* <RiderDetails /> */}
           {/* <AutofillCheckoutDemo /> */}
         </div>
         {/* <div className="absolute z-10 bottom-0 w-full translate-x-1/2 -translate-y-1/2 ">
