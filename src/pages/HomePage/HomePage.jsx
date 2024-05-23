@@ -4,7 +4,6 @@ import { Search } from "@/assets/icons";
 // import LocationMarker from "@/assets/icons/locationMarker";
 import { Drawer } from "vaul";
 import Test from "@/components/Test";
-import RiderDetails from "../RiderDetails/RiderDetails";
 
 function HomePage() {
   return (
@@ -13,7 +12,7 @@ function HomePage() {
         <div id="map">
           {/* <MapboxPage /> */}
           <Test />
-          <RiderDetails />
+          {/* <RiderDetails /> */}
           {/* <AutofillCheckoutDemo /> */}
         </div>
         {/* <div className="absolute z-10 bottom-0 w-full translate-x-1/2 -translate-y-1/2 ">

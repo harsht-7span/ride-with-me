@@ -73,18 +73,18 @@ const Booking = ({
       </div> */}
       <div className="my-7 flex flex-row justify-around">
         <div>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
+          <div className="progress-bar">
+            <div className="progress-fill"></div>
           </div>
         </div>
         <div>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
+          <div className="progress-bar">
+            <div className="progress-fill"></div>
           </div>
         </div>
         <div>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
+          <div className="progress-bar">
+            <div className="progress-fill"></div>
           </div>
         </div>
       </div>

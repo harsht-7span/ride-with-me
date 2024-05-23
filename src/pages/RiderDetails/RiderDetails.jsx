@@ -7,7 +7,7 @@ import Drawer from "react-modern-drawer";
 
 import "react-modern-drawer/dist/index.css";
 
-const App = () => {
+const RiderDetails = () => {
   const [otp, setOtp] = useState("");
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleDrawer = () => {
@@ -102,7 +102,7 @@ const App = () => {
             <div>{/* <Phone className="h-8 w-8 mr-4" /> */}</div>
           </div>
 
-          <button className="w-[330px] h-12 rounded-xl p-2 text-white bg-[#FF6C96] font-semibold text-sm leading-5 mx-auto mt-5">
+          <button className="w-full h-12 rounded-xl p-2 text-white bg-[#FF6C96] font-semibold text-sm leading-5 mx-auto mt-5">
             Cancel ride
           </button>
         </div>
@@ -111,4 +111,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default RiderDetails;
