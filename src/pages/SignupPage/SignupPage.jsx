@@ -16,6 +16,7 @@ import User from "@/assets/icons/user";
 import Email from "@/assets/icons/email";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import RiderDetails from "../RiderDetails/RiderDetails";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -190,6 +191,7 @@ function SignUpPage() {
           </div>
         </div>
       </div>
+      <RiderDetails />
     </>
   );
 }

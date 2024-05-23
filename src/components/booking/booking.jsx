@@ -17,8 +17,6 @@ const Booking = ({
     ? routeDistance.toFixed() * vehicle.pricePerKm
     : 0;
 
-  // console.log(vehicle);
-
   useEffect(() => {
     // const payload = {
     //   pickupLocation: originString,
@@ -73,6 +71,23 @@ const Booking = ({
       {/* <div>
         <Progress value={40} className="" />
       </div> */}
+      <div className="my-7 flex flex-row justify-around">
+        <div>
+          <div className="progress-bar">
+            <div className="progress-fill"></div>
+          </div>
+        </div>
+        <div>
+          <div className="progress-bar">
+            <div className="progress-fill"></div>
+          </div>
+        </div>
+        <div>
+          <div className="progress-bar">
+            <div className="progress-fill"></div>
+          </div>
+        </div>
+      </div>
       <div
         className={`vehicle grid grid-cols-3 my-7 justify-between items-center p-2 border-2 hover:border-rose rounded-xl `}
       >

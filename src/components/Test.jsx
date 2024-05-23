@@ -13,6 +13,7 @@ import TriggerDrawer from "./mapPageComponents/triggerDrawer";
 import { useNavigate } from "react-router-dom";
 import Booking from "./booking/booking";
 import Arrow from "@/assets/icons/arrow";
+import RiderDetails from "@/pages/RiderDetails/RiderDetails";
 
 const Test = () => {
   const mapContainerRef = useRef(null);
@@ -30,15 +31,20 @@ const Test = () => {
   const [view, setView] = useState("form");
   const [snap, setSnap] = useState(1);
   const [open, setOpen] = useState(false);
+  const [showConfirmButton, setShowConfirmButton] = useState(false);
+
   const { toast } = useToast();
 
   const handleSelectVehicle = (vehicle) => {
     setSelectedVehicle(vehicle);
   };
 
+  // this one is for the map rendering and route distance
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ";
+    // mapboxgl.accessToken =
+    //   "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1MmhweHRmMHRnZTJtcGRvZXd1dzdxaCJ9.Jv2qrYH63lMJsb_JNvixzA";
 
     navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
       enableHighAccuracy: true,
@@ -51,7 +57,9 @@ const Test = () => {
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`
       )
         .then((response) => response.json())
+
         .then((data) => {
+          console.log(data);
           const address = data.features[0]?.place_name || "Unknown";
           setOriginInput(address);
         })
@@ -87,24 +95,13 @@ const Test = () => {
         trackUserLocation: true,
         showAccuracyCircle: true,
         showUserHeading: true,
+        showUserLocation: true,
       });
-
       map.addControl(geolocate);
+
       map.on("load", () => {
         geolocate.trigger();
       });
-
-      // map.addControl(
-      //   new mapboxgl.GeolocateControl({
-      //     positionOptions: {
-      //       enableHighAccuracy: true,
-      //     },
-      //     trackUserLocation: true,
-      //     showAccuracyCircle: true,
-      //     showUserLocation: true,
-      //     showUserHeading: true,
-      //   })
-      // );
 
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
@@ -118,15 +115,18 @@ const Test = () => {
         },
       });
 
-      const nav = new mapboxgl.NavigationControl();
+      const nav = new mapboxgl.NavigationControl({
+        showCompass: false,
+        showZoom: false,
+      });
       map.addControl(nav);
 
-      map.addControl(directions, "top-right");
+      map.addControl(directions, "top-left");
 
       directions.on("route", (e) => {
         const route = e.route && e.route[0];
         if (route) {
-          setDirectionsRoute(route);
+          // setDirectionsRoute(route);
 
           const originCoords = route.legs[0].steps[0].maneuver.location;
           const destinationCoords =
@@ -149,6 +149,14 @@ const Test = () => {
       setDirections(directions);
     }
   }, []);
+
+  // this one is for confirm route button
+  useEffect(() => {
+    // setShowConfirmButton(false);
+    if (originInput || destinationInput) {
+      setShowConfirmButton(true);
+    }
+  }, [originInput, destinationInput]);
 
   const handleOriginInputChange = (event) => {
     setOriginInput(event.target.value);
@@ -202,7 +210,8 @@ const Test = () => {
             ref={mapContainerRef}
             className="w-full h-full overflow-hidden"
           />
-          <Drawer.Trigger onClick={() => setOpen(true)}>
+
+          <Drawer.Trigger onClick={() => (setOpen(true), setSnap(1))}>
             <TriggerDrawer />
           </Drawer.Trigger>
 
@@ -238,8 +247,9 @@ const Test = () => {
 
                         <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ">
                           <Input
+                            id="myTargetInput"
                             autoComplete="shipping street-address"
-                            className="border-none text-gray-500"
+                            className="border-none text-gray-500 flex-grow "
                             type="text"
                             placeholder="Destination"
                             value={destinationInput}
@@ -247,8 +257,17 @@ const Test = () => {
                           />
                         </AddressAutofill>
                       </div>
-
+                      {/* 
                       {routeDistance === null && (
+                        <Button
+                          onClick={handleRouteSearch}
+                          className="rounded-[8px] w-full"
+                        >
+                          Confirm Location
+                        </Button>
+                      )} */}
+
+                      {showConfirmButton && (
                         <Button
                           onClick={handleRouteSearch}
                           className="rounded-[8px] w-full"
@@ -265,8 +284,8 @@ const Test = () => {
                     </div>
 
                     {routeDistance !== null && (
-                      <div className="bg-white flex flex-col justify-start  pb-10 h-96 container overflow-scroll">
-                        <div className="bookingCategory flex flex-col gap-5">
+                      <div className="bg-white flex flex-col justify-start  pb-10  container ">
+                        <div className="bookingCategory flex flex-col gap-5 overflow-auto h-2/4 sm:overflow-visible ">
                           {vehicles.map((vehicle, index) => (
                             <VehicleCard
                               key={index}
@@ -275,17 +294,17 @@ const Test = () => {
                               onSelect={handleSelectVehicle}
                             />
                           ))}
+                          {selectedVehicle && (
+                            <div className="flex flex-col gap-2 fixed inset-x-0 bottom-0 top-auto">
+                              <Button
+                                onClick={handleBooking}
+                                className="mt-2 bg-rose rounded w-full"
+                              >
+                                Book {selectedVehicle.type}
+                              </Button>
+                            </div>
+                          )}
                         </div>
-                        {selectedVehicle && (
-                          <div className="flex flex-col gap-2">
-                            <Button
-                              onClick={handleBooking}
-                              className="mt-2 bg-rose rounded w-full"
-                            >
-                              Book {selectedVehicle.type}
-                            </Button>
-                          </div>
-                        )}
                       </div>
                     )}
                   </div>
@@ -299,6 +318,7 @@ const Test = () => {
                   destinationCoordinates={destinationCoordinates}
                   routeDistance={routeDistance}
                 />
+                // <RiderDetails />
               )}
             </Drawer.Content>
           </Drawer.Portal>
