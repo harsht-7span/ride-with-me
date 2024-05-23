@@ -30,13 +30,15 @@ const Test = () => {
   const [view, setView] = useState("form");
   const [snap, setSnap] = useState(1);
   const [open, setOpen] = useState(false);
+  const [showConfirmButton, setShowConfirmButton] = useState(false);
+
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const handleSelectVehicle = (vehicle) => {
     setSelectedVehicle(vehicle);
   };
 
+  // this one is for the map rendering and route distance
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ";
@@ -52,6 +54,7 @@ const Test = () => {
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`
       )
         .then((response) => response.json())
+
         .then((data) => {
           const address = data.features[0]?.place_name || "Unknown";
           setOriginInput(address);
@@ -81,15 +84,31 @@ const Test = () => {
         maxBounds: bounds,
       });
 
-      map.addControl(
-        new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true,
-          },
-          trackUserLocation: true,
-          showUserHeading: true,
-        })
-      );
+      const geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showAccuracyCircle: true,
+        showUserHeading: true,
+      });
+
+      map.addControl(geolocate);
+      map.on("load", () => {
+        geolocate.trigger();
+      });
+
+      // map.addControl(
+      //   new mapboxgl.GeolocateControl({
+      //     positionOptions: {
+      //       enableHighAccuracy: true,
+      //     },
+      //     trackUserLocation: true,
+      //     showAccuracyCircle: true,
+      //     showUserLocation: true,
+      //     showUserHeading: true,
+      //   })
+      // );
 
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
@@ -135,6 +154,15 @@ const Test = () => {
     }
   }, []);
 
+  // this one is for confirm route button
+  useEffect(() => {
+    // setShowConfirmButton(false);
+    if (originInput || destinationInput) {
+      setShowConfirmButton(true);
+    }
+    console.log("Confirm Button log");
+  }, [originInput, destinationInput]);
+
   const handleOriginInputChange = (event) => {
     setOriginInput(event.target.value);
   };
@@ -179,7 +207,7 @@ const Test = () => {
         snapPoints={[0.6, 1]}
         activeSnapPoint={snap}
         setActiveSnapPoint={setSnap}
-        dismissible={false}
+        // dismissible={false}
         open={open}
       >
         <div className="map-wrap h-[100vh] w-full relative">
@@ -187,12 +215,12 @@ const Test = () => {
             ref={mapContainerRef}
             className="w-full h-full overflow-hidden"
           />
-          <Drawer.Trigger onClick={() => setOpen(true)}>
+          <Drawer.Trigger onClick={() => (setOpen(true), setSnap(1))}>
             <TriggerDrawer />
           </Drawer.Trigger>
 
           <Drawer.Portal>
-            <Drawer.Content className="bg-white flex items-center flex-col rounded-t-[10px] h-full mt-24 fixed bottom-0 left-0 right-0">
+            <Drawer.Content className="z-10 bg-white flex items-center flex-col rounded-t-[10px] h-full mt-24 fixed bottom-0 left-0 right-0">
               {view === "form" ? (
                 <form onSubmit={handleSubmit}>
                   <div className="overflow-auto">
@@ -232,8 +260,17 @@ const Test = () => {
                           />
                         </AddressAutofill>
                       </div>
-
+                      {/* 
                       {routeDistance === null && (
+                        <Button
+                          onClick={handleRouteSearch}
+                          className="rounded-[8px] w-full"
+                        >
+                          Confirm Location
+                        </Button>
+                      )} */}
+
+                      {showConfirmButton && (
                         <Button
                           onClick={handleRouteSearch}
                           className="rounded-[8px] w-full"
@@ -250,8 +287,8 @@ const Test = () => {
                     </div>
 
                     {routeDistance !== null && (
-                      <div className="bg-white flex flex-col justify-start  pb-10 h-96 container overflow-scroll">
-                        <div className="bookingCategory flex flex-col gap-5">
+                      <div className="bg-white flex flex-col justify-start  pb-10  container ">
+                        <div className="bookingCategory flex flex-col gap-5  overflow-auto h-96 sm:overflow-visible sm:h-auto">
                           {vehicles.map((vehicle, index) => (
                             <VehicleCard
                               key={index}
@@ -262,7 +299,7 @@ const Test = () => {
                           ))}
                         </div>
                         {selectedVehicle && (
-                          <div className="flex flex-col gap-2">
+                          <div className="flex flex-col gap-2 fixed inset-x-0 bottom-0 top-auto">
                             <Button
                               onClick={handleBooking}
                               className="mt-2 bg-rose rounded w-full"
