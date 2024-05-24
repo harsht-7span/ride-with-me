@@ -6,6 +6,12 @@ body {
   pointer-events: all !important;
 }
 
+.mapboxgl-control-container {
+  display: none;
+}
+/* .mapboxgl-ctrl-logo {
+  display: none !important;
+} */
 #root {
   margin: 0;
   padding: 0;
@@ -60,14 +66,14 @@ body {
   height: 4px;
   width: 0%;
   animation: progress-forward 3s infinite;
-  background: #FF6C96;
+  background: #ff6c96;
   border-radius: 15px;
 }
 
 .progress-bar:nth-child(1) .progress-fill {
   animation-delay: 0s; /* No delay for the first progress bar */
 }
-  
+
 .progress-bar:nth-child(2) .progress-fill {
   animation-delay: 6s; /* 1 second delay for the second progress bar */
 }
@@ -91,7 +97,7 @@ body {
   100% {
     width: 100%;
   }
-} ;
+}
 /* .map-box-list > mapbox-address-autofill {
   max-width: 95%;
   width: 100%;

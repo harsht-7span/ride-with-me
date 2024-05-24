@@ -67,7 +67,7 @@ function Login() {
           isClosable: true,
         });
         // navigate("/signup");
-        // navigate("/verify");
+        navigate("/verify");
       });
 
     loginForm.reset();

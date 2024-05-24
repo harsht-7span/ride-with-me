@@ -5,6 +5,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 
 import { registerSW } from "virtual:pwa-register";
+import { MapProvider } from "./context/MapContext.jsx";
 
 const updateSW = registerSW({
   onOfflineReady() {},
@@ -12,6 +13,8 @@ const updateSW = registerSW({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <App />
+    <MapProvider>
+      <App />
+    </MapProvider>
   </BrowserRouter>
 );
