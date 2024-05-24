@@ -6,6 +6,9 @@ body {
   pointer-events: all !important;
 }
 
+.mapboxgl-control-container {
+  display: none;
+}
 /* .mapboxgl-ctrl-logo {
   display: none !important;
 } */
@@ -19,7 +22,7 @@ body {
   display: none;
 }
 
-/* .map-wrap .mapboxgl-ctrl-geolocate {
+.map-wrap .mapboxgl-ctrl-geolocate {
   padding: 10px;
   height: 30px;
   width: 30px;
@@ -34,7 +37,7 @@ body {
   z-index: 1;
   top: 4%;
   right: 2%;
-} */
+}
 /* 
 @media only screen and (max-width: 390px) {
   /* overflow-auto h-96 */
