@@ -111,6 +111,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useToast } from "@/components/ui/use-toast";
+import { setToken } from "@/lib/utils";
 import { otpSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef, useEffect } from "react";
@@ -146,6 +147,7 @@ function VerifyPage() {
     verifyOtp(payload)
       .then((res) => {
         console.log(res);
+        setToken(res.data.token);
         toast({
           variant: "success",
           title: res.data.message,

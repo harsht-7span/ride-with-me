@@ -1,83 +1,87 @@
-import React, { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import "mapbox-gl/dist/mapbox-gl.css";
-import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
+import React, { useContext, useState } from "react";
+import { MapContext, MapProvider } from "../context/MapContext";
+import Map from "./Map";
+import RouteForm from "./RouteForm";
+import { Drawer } from "vaul";
+import TriggerDrawer from "./mapPageComponents/triggerDrawer";
+import { LocationSchema } from "@/validation";
+import { useToast } from "./ui/use-toast"; // Make sure to import useToast
+import Booking from "./booking/booking";
+import RiderDetails from "@/pages/RiderDetails/RiderDetails";
+import { useNavigate } from "react-router-dom";
 
-function Test2() {
-  const [map, setMap] = useState(null);
-  const [directions, setDirections] = useState(null);
-  const mapContainerRef = useRef(null);
+const Test2 = () => {
+  const [view, setView] = useState("form");
+  const [snap, setSnap] = useState(1);
+  const [open, setOpen] = useState(false);
+  const { originInput, destinationInput, directions } = useContext(MapContext);
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1MmhweHRmMHRnZTJtcGRvZXd1dzdxaCJ9.Jv2qrYH63lMJsb_JNvixzA";
+  const handleRouteSearch = (e) => {
+    setSnap(1);
+    const originResult = LocationSchema.safeParse(originInput);
+    const destinationResult = LocationSchema.safeParse(destinationInput);
 
-    navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
-      enableHighAccuracy: true,
-    });
-
-    function successLocation(position) {
-      const { latitude, longitude } = position.coords;
-
-      fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`
-      ).then((response) => response.json());
-
-      setupMap([longitude, latitude]);
+    if (!originResult.success || !destinationResult.success) {
+      toast({
+        variant: "destructive",
+        title: "Please enter a valid address.",
+        duration: 2000,
+      });
+      return;
     }
 
-    function errorLocation() {
-      setupMap([-2.24, 53.48]);
+    if (directions && originInput && destinationInput) {
+      directions.setOrigin(originInput);
+      directions.setDestination(destinationInput);
     }
+    // console.log(directions);
+  };
 
-    function setupMap(center) {
-      const map = new mapboxgl.Map({
-        container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/streets-v12",
-        center: center,
-        zoom: 10,
-      });
-
-      const geolocate = new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-        showAccuracyCircle: true,
-        showUserLocation: true,
-      });
-      map.addControl(geolocate);
-
-      geolocate.on("trackuserlocationstart", () => {
-        console.log("A geolocate event has occurred.");
-      });
-
-      map.on("load", () => {
-        geolocate.trigger();
-      });
-
-      const directions = new MapboxDirections({
-        accessToken: mapboxgl.accessToken,
-        unit: "metric",
-        profile: "mapbox/driving",
-      });
-
-      const nav = new mapboxgl.NavigationControl();
-      map.addControl(nav);
-
-      map.addControl(directions, "top-right");
-
-      setMap(map);
-      setDirections(directions);
-    }
-  }, []);
+  const handleBooking = () => {
+    navigate("/booking");
+    // setView("booking");
+    setSnap(0.6);
+  };
 
   return (
-    <>
-      <div ref={mapContainerRef} className="w-full h-[700px] overflow-hidden" />
-    </>
+    <Drawer.Root
+      snapPoints={[0.6, 1]}
+      activeSnapPoint={snap}
+      setActiveSnapPoint={setSnap}
+      open={open}
+    >
+      <div className="map-wrap h-[100vh] w-full ">
+        <Map />
+        <Drawer.Trigger
+          onClick={() => {
+            setOpen(true);
+            setSnap(1);
+          }}
+        >
+          <TriggerDrawer />
+        </Drawer.Trigger>
+        <Drawer.Portal>
+          <Drawer.Content className="z-10 bg-white flex items-center flex-col rounded-t-[10px] h-full mt-24 fixed bottom-0 left-0 right-0">
+            {/* <RouteForm
+              handleRouteSearch={handleRouteSearch}
+              handleBooking={handleBooking}
+            /> */}
+
+            {view === "form" ? (
+              <RouteForm
+                handleRouteSearch={handleRouteSearch}
+                handleBooking={handleBooking}
+              />
+            ) : (
+              <Booking />
+            )}
+          </Drawer.Content>
+        </Drawer.Portal>
+      </div>
+    </Drawer.Root>
   );
-}
+};
 
 export default Test2;
