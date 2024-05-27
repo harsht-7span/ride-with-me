@@ -6,16 +6,18 @@ import { useState, useEffect } from "react";
 import Drawer from "react-modern-drawer";
 
 import "react-modern-drawer/dist/index.css";
-import { getAllDriver } from "@/api/driver";
+import { driverByID, getAllDriver } from "@/api/driver";
 import { handler } from "tailwindcss-animate";
 import { useNavigate } from "react-router-dom";
 import { MapContext } from "@/context/MapContext";
+import Phone from "@/assets/icons/phone";
 
 const RiderDetails = () => {
   const { setSnap, setView } = useContext(MapContext);
-  const [otp, setOtp] = useState("");
   const [driver, setDriver] = useState(null);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [driverId, setDriverId] = useState(null);
+  const [vehicleID, setVehicleId] = useState(null);
+
   const navigate = useNavigate();
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
@@ -23,14 +25,24 @@ const RiderDetails = () => {
 
   const fetchData = async () => {
     try {
-      getAllDriver().then((res) => {
+      await getAllDriver().then((res) => {
         console.log(res.data.data[0]);
         setDriver(res.data.data[0]);
+      });
+
+      await driverByID(driver?._id).then((res) => {
+        setDriverId(res.data.data.driver);
+        setVehicleId(res.data.data.vehicles);
       });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
+  console.log(driverId?.digit);
+  console.log(driverId);
+
+  console.log(vehicleID?.licensePlate);
 
   const handleCancle = () => {
     navigate("/home");
@@ -46,14 +58,6 @@ const RiderDetails = () => {
 
   return (
     <>
-      {/* <button onClick={toggleDrawer}>Show</button> */}
-      {/* <Drawer
-        open={isOpen}
-        onClose={toggleDrawer}
-        direction="bottom"
-        size="467px"
-        className="bla bla bla rounded-t-3xl"
-      > */}
       <div className=" w-full px-5 text-left font-poppins ">
         <div className="pt-5">
           <h1 className="font-medium text-base leading-6">Ride Details</h1>
@@ -90,8 +94,7 @@ const RiderDetails = () => {
           <div className="mb-4">
             <p className="font-medium text-sm mb-1">PIN for this ride</p>
             <OtpInput
-              value={otp}
-              onChange={setOtp}
+              value={driverId?.digit}
               numInputs={4}
               renderSeparator={<span> &nbsp; </span>}
               inputStyle="bg-[#BCBBE8] rounded px-1 py-1 h-7 w-14 "
@@ -123,13 +126,15 @@ const RiderDetails = () => {
           />
           <p className="font-medium text-base leading-6 max-w-24 -left-14 relative">
             {driver?.name}
-            <span className="font-normal text-sm text-[#757575]">
-              GJ03DQ5551
-            </span>
+            <p className="font-normal text-sm text-[#757575]">
+              {vehicleID?.licensePlate}
+            </p>
           </p>
 
           {/* </div> */}
-          <div>{/* <Phone className="h-8 w-8 mr-4" /> */}</div>
+          <div>
+            <Phone className="h-8 w-8 mr-4" />
+          </div>
         </div>
 
         <button
@@ -146,7 +151,6 @@ const RiderDetails = () => {
           Cancel ride
         </button>
       </div>
-      {/* </Drawer> */}
     </>
   );
 };

@@ -77,8 +77,8 @@ function App() {
             element={<AuthRoute element={ResetPage} isPrivate={false} />}
           />
           <Route
-            path="/successfull"
-            element={<AuthRoute element={SuccessfullPage} isPrivate={false} />}
+            path="/success"
+            element={<AuthRoute element={SuccessfullPage} isPrivate={true} />}
           />
           <Route
             path="/verify"
@@ -86,7 +86,7 @@ function App() {
           />
           <Route
             path="/home"
-            element={<AuthRoute element={HomePage} isPrivate={false} />}
+            element={<AuthRoute element={HomePage} isPrivate={true} />}
           />
         </Route>
       </Routes>

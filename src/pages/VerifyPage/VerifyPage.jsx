@@ -152,7 +152,7 @@ function VerifyPage() {
           variant: "success",
           title: res.data.message,
         });
-        navigate("/successfull");
+        navigate("/success");
       })
       .catch((res) => {
         toast({
