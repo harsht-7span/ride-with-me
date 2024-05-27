@@ -41,7 +41,6 @@ const PaymentDetails = () => {
 
         <div>
           <h1 className="font-medium text-base mt-6 leading-6">
-            {" "}
             Payment Details
           </h1>
           <p className="font-medium text-base leading-5 text-[#9E9E9E] mt-2 mb-2">

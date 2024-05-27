@@ -96,7 +96,7 @@ const RouteForm = ({ handleRouteSearch, handleBooking }) => {
           )}
         </div>
         {routeDistance !== null && (
-          <div className="bg-white flex flex-col justify-start pb-10 h-64 2xl:h-auto overflow-auto container">
+          <div className="bg-white flex flex-col justify-start pb-10 h-80 2xl:h-80 overflow-auto container">
             <div className="bookingCategory flex flex-col gap-4 overflow-auto">
               {vehicles.map((vehicle, index) => (
                 <VehicleCard

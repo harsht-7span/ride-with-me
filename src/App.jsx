@@ -78,7 +78,7 @@ function App() {
           />
           <Route
             path="/success"
-            element={<AuthRoute element={SuccessfullPage} isPrivate={true} />}
+            element={<AuthRoute element={SuccessfullPage} isPrivate={false} />}
           />
           <Route
             path="/verify"
