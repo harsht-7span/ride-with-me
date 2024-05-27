@@ -1,5 +1,4 @@
 import Test2 from "@/components/Test2";
-import Map from "@/components/Map";
 
 function HomePage() {
   return (

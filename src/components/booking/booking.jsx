@@ -93,7 +93,9 @@ const Booking = () =>
 
     return (
       <div className="px-4">
-        <h2 className="py-4 font-medium text-2xl">Confirming your auto</h2>
+        <h2 className="py-4 font-medium text-2xl">
+          Confirming your {selectedVehicle.type}
+        </h2>
         {/* <div>
         <Progress value={40} className="" />
       </div> */}
