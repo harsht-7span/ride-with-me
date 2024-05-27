@@ -1,4 +1,6 @@
+const { default: HomePage } = require("@/pages/HomePage/HomePage");
 const { default: Login } = require("@/pages/Login/Login");
+const { default: PaymentDetails } = require("@/pages/Payment/PaymentDetails");
 const { default: SignUpPage } = require("@/pages/SignupPage/SignupPage");
 const {
   default: SuccessfullPage,
@@ -33,5 +35,19 @@ const routes = {
       name: "successfull",
       component: SuccessfullPage,
     },
+    home: {
+      path: "/home",
+      title: "Home",
+      name: "home",
+      component: HomePage,
+    },
+    payment: {
+      path: "/payment",
+      title: "Payment",
+      name: "payment",
+      component: PaymentDetails,
+    },
   },
 };
+
+export default routes;

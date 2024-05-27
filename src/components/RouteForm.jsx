@@ -19,6 +19,7 @@ const RouteForm = ({ handleRouteSearch, handleBooking }) => {
     routeDistance,
     selectedVehicle,
     setSelectedVehicle,
+    setOpen,
   } = useContext(MapContext);
 
   const { toast } = useToast();
@@ -49,7 +50,7 @@ const RouteForm = ({ handleRouteSearch, handleBooking }) => {
     <form onSubmit={handleSubmit}>
       <div className="overflow-auto">
         <div className="flex items-center gap-5 py-4 px-2">
-          <button type="button">
+          <button type="button" onClick={() => setOpen(false)}>
             <Arrow className="cursor-pointer" />
           </button>
           <h2 className="font-semibold text-xl">Pickup</h2>
@@ -95,8 +96,8 @@ const RouteForm = ({ handleRouteSearch, handleBooking }) => {
           )}
         </div>
         {routeDistance !== null && (
-          <div className="bg-white flex flex-col justify-start pb-10 container">
-            <div className="bookingCategory flex flex-col gap-5 overflow-auto h-2/4 sm:overflow-visible">
+          <div className="bg-white flex flex-col justify-start pb-10 h-64 2xl:h-auto overflow-auto container">
+            <div className="bookingCategory flex flex-col gap-4 overflow-auto">
               {vehicles.map((vehicle, index) => (
                 <VehicleCard
                   key={index}

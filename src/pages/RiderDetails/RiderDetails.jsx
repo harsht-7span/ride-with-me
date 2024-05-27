@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 // import { Rikshaw, Location, Verticleline, Driver, Phone } from "@/icons";
 import OtpInput from "react-otp-input";
 import { useState, useEffect } from "react";
@@ -9,8 +9,10 @@ import "react-modern-drawer/dist/index.css";
 import { getAllDriver } from "@/api/driver";
 import { handler } from "tailwindcss-animate";
 import { useNavigate } from "react-router-dom";
+import { MapContext } from "@/context/MapContext";
 
 const RiderDetails = () => {
+  const { setSnap, setView } = useContext(MapContext);
   const [otp, setOtp] = useState("");
   const [driver, setDriver] = useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -31,7 +33,11 @@ const RiderDetails = () => {
   };
 
   const handleCancle = () => {
-    navigate("/homepage");
+    navigate("/home");
+  };
+
+  const handlePay = () => {
+    setView("pay");
   };
 
   useEffect(() => {
@@ -48,8 +54,8 @@ const RiderDetails = () => {
         size="467px"
         className="bla bla bla rounded-t-3xl"
       > */}
-      <div className="mx-4 text-left font-poppins ">
-        <div className="mt-5">
+      <div className=" w-full px-5 text-left font-poppins ">
+        <div className="pt-5">
           <h1 className="font-medium text-base leading-6">Ride Details</h1>
           <div className="flex flex-row mt-2">
             {/* <Location className="h-5 w-5" /> */}
@@ -80,7 +86,7 @@ const RiderDetails = () => {
         </div>
 
         <hr />
-        <div className="mt-7 flex flex-row justify-between">
+        <div className="pt-7 flex flex-row justify-between">
           <div className="mb-4">
             <p className="font-medium text-sm mb-1">PIN for this ride</p>
             <OtpInput
@@ -110,11 +116,11 @@ const RiderDetails = () => {
 
         <div className="flex flex-row justify-between mt-6">
           {/* <div className="flex flex-row gap-3"> */}
-          {/* <img
+          <img
             src="./src/assets/driver.png"
             alt="driver"
             className="h-12 w-12"
-          /> */}
+          />
           <p className="font-medium text-base leading-6 max-w-24 -left-14 relative">
             {driver?.name}
             <span className="font-normal text-sm text-[#757575]">
@@ -125,6 +131,13 @@ const RiderDetails = () => {
           {/* </div> */}
           <div>{/* <Phone className="h-8 w-8 mr-4" /> */}</div>
         </div>
+
+        <button
+          onClick={handlePay}
+          className="w-full h-12 rounded-xl p-2 text-white bg-[#FF6C96] font-semibold text-sm leading-5 mx-auto mt-5"
+        >
+          Pay
+        </button>
 
         <button
           onClick={handleCancle}
