@@ -11,7 +11,7 @@ import React from "react";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import { useNavigate } from "react-router-dom";
-import EditProfile from "./editProfile";
+import EditProfile from "./EditProfile.jsx";
 
 const ProfilePage = () => {
   const [isOpen, setIsOpen] = React.useState(false);
