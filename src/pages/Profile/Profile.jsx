@@ -46,7 +46,7 @@ const ProfilePage = () => {
         className="bla bla bla rounded-r-3xl"
       >
         <div className="ml-5 font-poppins flex flex-col">
-          <Backarrow className=" mt-8" onClick={back}/>
+          <Backarrow className=" mt-8" onClick={back} />
           <label
             htmlFor="filee"
             className="w-16 h-16 bg-white mt-9 cursor-pointer"

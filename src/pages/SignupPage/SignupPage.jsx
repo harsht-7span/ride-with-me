@@ -12,11 +12,10 @@ import {
   Input,
 } from "@/components/ui";
 import Phone from "@/assets/icons/phone";
-import User from "@/assets/icons/user";
+import { User } from "@/assets/icons";
 import Email from "@/assets/icons/email";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
-import RiderDetails from "../RiderDetails/RiderDetails";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -105,7 +104,7 @@ function SignUpPage() {
                           <div className="flex items-center px-2  border rounded">
                             <User />
                             <Input
-                              placeholder="name"
+                              placeholder="Name"
                               {...field}
                               className="text-gray-500 border-0"
                             />
@@ -133,7 +132,7 @@ function SignUpPage() {
                                   e.target.value = e.target.value.slice(0, 10);
                                 }
                               }}
-                              placeholder="phoneNumber"
+                              placeholder="Mobile"
                               onWheel={numberInputOnWheelPreventChange}
                               type="number"
                               {...field}
@@ -159,7 +158,7 @@ function SignUpPage() {
                             <Email />
                             <Input
                               type="email"
-                              placeholder="email"
+                              placeholder="Email"
                               {...field}
                               className="text-gray-500 border-0"
                             />
@@ -191,7 +190,6 @@ function SignUpPage() {
           </div>
         </div>
       </div>
-      <RiderDetails />
     </>
   );
 }

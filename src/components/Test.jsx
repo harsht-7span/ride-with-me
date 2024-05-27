@@ -13,6 +13,7 @@ import TriggerDrawer from "./mapPageComponents/triggerDrawer";
 import { useNavigate } from "react-router-dom";
 import Booking from "./booking/booking";
 import Arrow from "@/assets/icons/arrow";
+import RiderDetails from "@/pages/RiderDetails/RiderDetails";
 
 const Test = () => {
   const mapContainerRef = useRef(null);
@@ -40,8 +41,10 @@ const Test = () => {
 
   // this one is for the map rendering and route distance
   useEffect(() => {
+    // mapboxgl.accessToken =
+    // "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ";
     mapboxgl.accessToken =
-      "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ";
+      "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x3azhhYnZiMDFkZDJrbnl2MW5pZWYwMSJ9.xGkeEjELhss-ZRGZeAXFbA";
 
     navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
       enableHighAccuracy: true,
@@ -56,6 +59,7 @@ const Test = () => {
         .then((response) => response.json())
 
         .then((data) => {
+          console.log(data);
           const address = data.features[0]?.place_name || "Unknown";
           setOriginInput(address);
         })
@@ -91,24 +95,13 @@ const Test = () => {
         trackUserLocation: true,
         showAccuracyCircle: true,
         showUserHeading: true,
+        showUserLocation: true,
       });
-
       map.addControl(geolocate);
+
       map.on("load", () => {
         geolocate.trigger();
       });
-
-      // map.addControl(
-      //   new mapboxgl.GeolocateControl({
-      //     positionOptions: {
-      //       enableHighAccuracy: true,
-      //     },
-      //     trackUserLocation: true,
-      //     showAccuracyCircle: true,
-      //     showUserLocation: true,
-      //     showUserHeading: true,
-      //   })
-      // );
 
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
@@ -122,15 +115,18 @@ const Test = () => {
         },
       });
 
-      const nav = new mapboxgl.NavigationControl();
+      const nav = new mapboxgl.NavigationControl({
+        showCompass: false,
+        showZoom: false,
+      });
       map.addControl(nav);
 
-      map.addControl(directions, "top-right");
+      map.addControl(directions, "top-left");
 
       directions.on("route", (e) => {
         const route = e.route && e.route[0];
         if (route) {
-          setDirectionsRoute(route);
+          // setDirectionsRoute(route);
 
           const originCoords = route.legs[0].steps[0].maneuver.location;
           const destinationCoords =
@@ -160,7 +156,6 @@ const Test = () => {
     if (originInput || destinationInput) {
       setShowConfirmButton(true);
     }
-    console.log("Confirm Button log");
   }, [originInput, destinationInput]);
 
   const handleOriginInputChange = (event) => {
@@ -181,13 +176,13 @@ const Test = () => {
       directions.setOrigin(originInput);
       directions.setDestination(destinationInput);
     }
+    console.log(directions);
     if (!originResult.success || !destinationResult.success) {
       toast({
         variant: "destructive",
         title: "Please enter Address.",
         duration: 2000,
       });
-
       return;
     }
   };
@@ -215,6 +210,7 @@ const Test = () => {
             ref={mapContainerRef}
             className="w-full h-full overflow-hidden"
           />
+
           <Drawer.Trigger onClick={() => (setOpen(true), setSnap(1))}>
             <TriggerDrawer />
           </Drawer.Trigger>
@@ -251,8 +247,9 @@ const Test = () => {
 
                         <AddressAutofill accessToken="pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ">
                           <Input
+                            id="myTargetInput"
                             autoComplete="shipping street-address"
-                            className="border-none text-gray-500"
+                            className="border-none text-gray-500 flex-grow "
                             type="text"
                             placeholder="Destination"
                             value={destinationInput}
@@ -288,7 +285,7 @@ const Test = () => {
 
                     {routeDistance !== null && (
                       <div className="bg-white flex flex-col justify-start  pb-10  container ">
-                        <div className="bookingCategory flex flex-col gap-5  overflow-auto h-96 sm:overflow-visible sm:h-auto">
+                        <div className="bookingCategory flex flex-col gap-5 overflow-auto h-2/4 sm:overflow-visible ">
                           {vehicles.map((vehicle, index) => (
                             <VehicleCard
                               key={index}
@@ -297,17 +294,17 @@ const Test = () => {
                               onSelect={handleSelectVehicle}
                             />
                           ))}
+                          {selectedVehicle && (
+                            <div className="flex flex-col gap-2 fixed inset-x-0 bottom-0 top-auto">
+                              <Button
+                                onClick={handleBooking}
+                                className="mt-2 bg-rose rounded w-full"
+                              >
+                                Book {selectedVehicle.type}
+                              </Button>
+                            </div>
+                          )}
                         </div>
-                        {selectedVehicle && (
-                          <div className="flex flex-col gap-2 fixed inset-x-0 bottom-0 top-auto">
-                            <Button
-                              onClick={handleBooking}
-                              className="mt-2 bg-rose rounded w-full"
-                            >
-                              Book {selectedVehicle.type}
-                            </Button>
-                          </div>
-                        )}
                       </div>
                     )}
                   </div>
@@ -321,6 +318,7 @@ const Test = () => {
                   destinationCoordinates={destinationCoordinates}
                   routeDistance={routeDistance}
                 />
+                // <RiderDetails />
               )}
             </Drawer.Content>
           </Drawer.Portal>

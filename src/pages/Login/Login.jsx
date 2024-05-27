@@ -57,6 +57,7 @@ function Login() {
           variant: "success",
           title: res.data.message,
           isClosable: true,
+          autodismisstimeout: 1,
         });
         navigate("/verify", { state: phoneNumber });
       })
@@ -65,6 +66,7 @@ function Login() {
           variant: "destructive",
           title: "NO USER FOUND!!" || res.message,
           isClosable: true,
+          autodismisstimeout: 1,
         });
         // navigate("/signup");
         // navigate("/verify");
@@ -110,7 +112,7 @@ function Login() {
                           }}
                           type="number"
                           onWheel={numberInputOnWheelPreventChange}
-                          placeholder="mobile"
+                          placeholder="Mobile"
                           {...field}
                           className="text-gray-500 border-0"
                         />
@@ -127,14 +129,14 @@ function Login() {
           </form>
         </Form>
       </div>
-      {/* <div>
+      <div>
         <p className="text-center text-sm">
           Don’t have an account?{" "}
           <Link to="/signup" className="text-rose">
             Sign Up
           </Link>
         </p>
-      </div> */}
+      </div>
     </div>
   );
 }
