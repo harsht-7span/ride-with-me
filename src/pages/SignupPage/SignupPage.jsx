@@ -191,7 +191,6 @@ function SignUpPage() {
           </div>
         </div>
       </div>
-      <RiderDetails />
     </>
   );
 }
