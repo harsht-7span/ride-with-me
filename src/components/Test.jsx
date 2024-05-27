@@ -41,10 +41,10 @@ const Test = () => {
 
   // this one is for the map rendering and route distance
   useEffect(() => {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ";
     // mapboxgl.accessToken =
-    //   "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1MmhweHRmMHRnZTJtcGRvZXd1dzdxaCJ9.Jv2qrYH63lMJsb_JNvixzA";
+    // "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1Mm1tNjJrMHUyZzJydDR0OG9mZ2libyJ9.Czqb7ulfDBjMpnF4pJUubQ";
+    mapboxgl.accessToken =
+      "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x3azhhYnZiMDFkZDJrbnl2MW5pZWYwMSJ9.xGkeEjELhss-ZRGZeAXFbA";
 
     navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
       enableHighAccuracy: true,
@@ -176,13 +176,13 @@ const Test = () => {
       directions.setOrigin(originInput);
       directions.setDestination(destinationInput);
     }
+    console.log(directions);
     if (!originResult.success || !destinationResult.success) {
       toast({
         variant: "destructive",
         title: "Please enter Address.",
         duration: 2000,
       });
-
       return;
     }
   };
