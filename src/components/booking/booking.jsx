@@ -28,6 +28,8 @@ const Booking = () =>
       routeDistance,
       originCoordinates,
       destinationCoordinates,
+      setView,
+      setSnap,
     } = useContext(MapContext);
 
     console.log(selectedVehicle);
@@ -85,7 +87,8 @@ const Booking = () =>
     ]);
 
     const handlerDriver = () => {
-      navigate("/driver");
+      setView("riderDetails");
+      setSnap(0.6);
     };
 
     return (
@@ -136,7 +139,9 @@ const Booking = () =>
             <p> {destinationString}</p>
           </div>
         </div>
-        <Button onClick={handlerDriver}>Driver details</Button>
+        <Button className="w-full rounded" onClick={handlerDriver}>
+          Driver details
+        </Button>
       </div>
     );
   };

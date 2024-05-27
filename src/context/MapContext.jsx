@@ -12,10 +12,16 @@ export const MapProvider = ({ children }) => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [directions, setDirections] = useState(null);
   const [map, setMap] = useState(null);
-
+  const [open, setOpen] = useState(false);
+  const [view, setView] = useState("form");
+  const [snap, setSnap] = useState(1);
   return (
     <MapContext.Provider
       value={{
+        view,
+        setView,
+        open,
+        setOpen,
         originInput,
         setOriginInput,
         destinationInput,
@@ -32,6 +38,8 @@ export const MapProvider = ({ children }) => {
         setDirections,
         map,
         setMap,
+        snap,
+        setSnap,
       }}
     >
       {children}
