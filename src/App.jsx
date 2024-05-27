@@ -86,7 +86,7 @@ function App() {
           />
           <Route
             path="/home"
-            element={<AuthRoute element={HomePage} isPrivate={true} />}
+            element={<AuthRoute element={HomePage} isPrivate={false} />}
           />
         </Route>
       </Routes>

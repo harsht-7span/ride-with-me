@@ -105,7 +105,7 @@ function SignUpPage() {
                           <div className="flex items-center px-2  border rounded">
                             <User />
                             <Input
-                              placeholder="name"
+                              placeholder="Name"
                               {...field}
                               className="text-gray-500 border-0"
                             />
@@ -133,7 +133,7 @@ function SignUpPage() {
                                   e.target.value = e.target.value.slice(0, 10);
                                 }
                               }}
-                              placeholder="phoneNumber"
+                              placeholder="Mobile"
                               onWheel={numberInputOnWheelPreventChange}
                               type="number"
                               {...field}
@@ -159,7 +159,7 @@ function SignUpPage() {
                             <Email />
                             <Input
                               type="email"
-                              placeholder="email"
+                              placeholder="Email"
                               {...field}
                               className="text-gray-500 border-0"
                             />

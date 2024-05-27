@@ -11,14 +11,25 @@ import { handler } from "tailwindcss-animate";
 import { useNavigate } from "react-router-dom";
 import { MapContext } from "@/context/MapContext";
 import Phone from "@/assets/icons/phone";
+import User from "@/assets/icons/user";
+import { toast, useToast } from "@/components/ui/use-toast";
+import { LocationMarker } from "@/assets/icons";
 
 const RiderDetails = () => {
   const { setSnap, setView } = useContext(MapContext);
   const [driver, setDriver] = useState(null);
   const [driverId, setDriverId] = useState(null);
   const [vehicleID, setVehicleId] = useState(null);
+  const {
+    selectedVehicle,
+    originInput: originString,
+    destinationInput: destinationString,
+  } = useContext(MapContext);
 
   const navigate = useNavigate();
+
+  const { toast } = useToast();
+
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
@@ -39,10 +50,7 @@ const RiderDetails = () => {
     }
   };
 
-  console.log(driverId?.digit);
-  console.log(driverId);
-
-  console.log(vehicleID?.licensePlate);
+  console.log(selectedVehicle);
 
   const handleCancle = () => {
     navigate("/home");
@@ -50,6 +58,32 @@ const RiderDetails = () => {
 
   const handlePay = () => {
     setView("pay");
+  };
+
+  const handlePhone = () => {
+    const phoneNumber = driver?.phoneNumber;
+
+    if (phoneNumber) {
+      navigator.clipboard
+        .writeText(phoneNumber)
+        .then(() => {
+          console.log("Phone number copied to clipboard:", phoneNumber);
+          toast({
+            variant: "success",
+            autodismisstimeout: 1,
+            title: "Copied",
+            description: `${phoneNumber} `,
+            status: "success",
+          });
+        })
+        .catch((err) => {
+          console.error("Failed to copy phone number:", err);
+          // Optionally, show an error message to the user
+        });
+    } else {
+      console.log("Phone number is not available");
+      // Optionally, show a message indicating that the phone number is not available
+    }
   };
 
   useEffect(() => {
@@ -61,17 +95,17 @@ const RiderDetails = () => {
       <div className=" w-full px-5 text-left font-poppins ">
         <div className="pt-5">
           <h1 className="font-medium text-base leading-6">Ride Details</h1>
-          <div className="flex flex-row mt-2">
-            {/* <Location className="h-5 w-5" /> */}
+          <div className="flex items-center gap-2 pt-2">
+            <LocationMarker className="h-5 w-5" />
             <p className=" font-normal text-sm text-[#A2A2A2] leading-5">
-              {driver?.location.coordinates[0]}
+              {originString}
             </p>
           </div>
-          {/* <Verticleline className="m-1 left-1 relative" /> */}
-          <div className="flex flex-row mt-2">
-            {/* <Location className="h-5 w-5" /> */}
+          <div className="w-[3px] h-5 bg-gray-300 ml-1"></div>
+          <div className="flex items-center gap-2 ">
+            <LocationMarker className="h-5 w-5" />
             <p className=" font-normal text-sm text-[#A2A2A2] leading-5">
-              {driver?.location.coordinates[1]}
+              {destinationString}
             </p>
           </div>
         </div>
@@ -80,7 +114,6 @@ const RiderDetails = () => {
 
         <div>
           <h1 className="font-medium text-base mt-6 leading-6">
-            {"fare"}
             Payment Details
           </h1>
           <p className="font-medium text-base leading-5 text-[#9E9E9E] mt-2 mb-2">
@@ -97,7 +130,7 @@ const RiderDetails = () => {
               value={driverId?.digit}
               numInputs={4}
               renderSeparator={<span> &nbsp; </span>}
-              inputStyle="bg-[#BCBBE8] rounded px-1 py-1 h-7 w-14 "
+              inputStyle="bg-[#BCBBE8] text-center rounded px-1 py-1 h-7 w-14 "
               inputType="number"
               renderInput={(props) => (
                 <input
@@ -113,17 +146,19 @@ const RiderDetails = () => {
           </div>
 
           {/* <Rikshaw className="pr-4 h-[72px] w-[72px] -mt-5 " /> */}
+          {selectedVehicle.icon}
         </div>
 
         <hr />
 
         <div className="flex flex-row justify-between mt-6">
           {/* <div className="flex flex-row gap-3"> */}
-          <img
+          {/* <img
             src="./src/assets/driver.png"
             alt="driver"
             className="h-12 w-12"
-          />
+          /> */}
+          <User className="h-32 w-32" />
           <p className="font-medium text-base leading-6 max-w-24 -left-14 relative">
             {driver?.name}
             <p className="font-normal text-sm text-[#757575]">
@@ -132,7 +167,7 @@ const RiderDetails = () => {
           </p>
 
           {/* </div> */}
-          <div>
+          <div onClick={handlePhone} className="cursor-pointer">
             <Phone className="h-8 w-8 mr-4" />
           </div>
         </div>

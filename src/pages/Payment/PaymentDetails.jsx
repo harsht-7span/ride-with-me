@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Drawer from "react-modern-drawer";
 
 import "react-modern-drawer/dist/index.css";
+import Phone from "@/assets/icons/phone";
 
 const PaymentDetails = () => {
   const [isOpen, setIsOpen] = React.useState(true);
@@ -18,14 +19,6 @@ const PaymentDetails = () => {
 
   return (
     <>
-      {/* <button onClick={toggleDrawer}>Show</button> */}
-      {/* <Drawer
-        open={isOpen}
-        onClose={toggleDrawer}
-        direction="bottom"
-        size="467px"
-        className="bla bla bla rounded-t-3xl    "
-      > */}
       <div className="px-4 w-full text-left font-poppins ">
         <div className="mt-5">
           <h1 className="font-medium text-base leading-6">Ride Details</h1>
@@ -76,7 +69,9 @@ const PaymentDetails = () => {
           </p>
 
           {/* </div> */}
-          <div>{/* <Phone className="h-8 w-8 mr-4" /> */}</div>
+          <div>
+            <Phone className="h-8 w-8 mr-4" />
+          </div>
         </div>
 
         <button
@@ -86,7 +81,6 @@ const PaymentDetails = () => {
           Pay
         </button>
       </div>
-      {/* </Drawer> */}
     </>
   );
 };
