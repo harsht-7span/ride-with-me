@@ -2,19 +2,15 @@ import React from "react";
 // import { Rikshaw, Location, Verticleline, Driver, Phone } from "@/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Drawer from "react-modern-drawer";
 
 import "react-modern-drawer/dist/index.css";
 import Phone from "@/assets/icons/phone";
 
 const PaymentDetails = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
-  // const toggleDrawer = () => {
-  //   setIsOpen((prevState) => !prevState);
-  // };
+  const navigate = useNavigate();
 
   const paymode = () => {
-    // navigate("/paymode");
+    navigate("/paymode");
   };
 
   return (

@@ -1,24 +1,24 @@
-import { Backarrow, DisplayEdit } from "@/icons";
+import { Arrow } from "@/assets/icons";
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const PaymentMode = () => {
   const navigate = useNavigate();
-  const PaymentDetails = () => {
+  const goBack = () => {
     navigate(-1);
   };
 
   return (
     <div className="mx-3">
       <div className="mt-4 flex gap-6">
-        <Backarrow
-          className="mt-2 ml-2 cursor-pointer"
-          onClick={PaymentDetails}
-        />
+        <div onClick={goBack} className="cursor-pointer">
+          <Arrow className="mt-2 ml-2 cursor-pointer" />
+        </div>
         <p className="font-semibold text-xl leading-7">Payment Information</p>
       </div>
       <div className="mt-11 flex justify-center">
-        <DisplayEdit className="h-24 w-24 " />
+        {/* <DisplayEdit className="h-24 w-24 " /> */}
       </div>
 
       <div className="flex flex-col mt-7">

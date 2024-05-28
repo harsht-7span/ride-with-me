@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import { useNavigate } from "react-router-dom";
+import { getUserId, removeToken } from "@/lib/utils";
+import { userId } from "@/api/user";
 
 const ProfilePage = ({ isOpen, toggleDrawer }) => {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
 
-  // Get the name from local storage
-  const cus_name = localStorage.getItem("name");
+  const userIdlocal = getUserId();
+
+  const fetchUserData = async () => {
+    try {
+      const response = await userId(userIdlocal);
+      if (response.data.success) {
+        setUserData(response.data.data);
+      }
+      console.log(response.data.data);
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const handleLogout = () => {
+    removeToken();
+    navigate("/login");
+  };
 
   const edit = () => {
     navigate("/edit");
-  };
-  const back = () => {
-    navigate("-1");
   };
 
   return (
@@ -32,23 +52,26 @@ const ProfilePage = ({ isOpen, toggleDrawer }) => {
           >
             <div className="h-16 w-16 bg-red-400 rounded-full flex justify-center items-center">
               <h2 className="text-white font-semibold text-2xl leading-6">
-                {cus_name ? cus_name.charAt(0) : "heli"}
+                {userData ? userData.name.charAt(0) : "U"}
               </h2>
             </div>
           </label>
 
           <div className="font-medium text-[#414141] mt-5 text-left">
-            <p className="text-lg leading-6">{cus_name ? cus_name : "User"}</p>
+            <p className="text-lg leading-6">
+              {userData ? userData.name : "User"}
+            </p>
           </div>
 
-          <div className="mt-10 font-normal text-sm leading-4">
-            <div className="flex flex-row mt-2 mb-4">
-              <p className="text-left cursor-pointer" onClick={edit}>
-                Edit Profile
-              </p>
+          <div className="mt-10 font-normal text-sm leading-4  ">
+            <div
+              className="flex flex-row mt-2 mb-4 w-full cursor-pointer"
+              onClick={edit}
+            >
+              <p className="text-left">Edit Profile</p>
             </div>
             <hr />
-            <div className="flex flex-row  mt-2 mb-4">
+            <div className="flex flex-row mt-2 mb-4">
               <p className="text-left">About Us</p>
             </div>
             <hr />
@@ -56,7 +79,7 @@ const ProfilePage = ({ isOpen, toggleDrawer }) => {
               <p className="text-left">Help and Support</p>
             </div>
             <hr />
-            <div className="flex flex-row  mt-2 mb-4">
+            <div className="flex flex-row mt-2 mb-4" onClick={handleLogout}>
               <p className="text-left">Logout</p>
             </div>
             <hr />
