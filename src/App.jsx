@@ -50,6 +50,7 @@ import Login from "./pages/Login/Login";
 import { Toaster } from "./components/ui/toaster";
 import RiderDetails from "./pages/RiderDetails/RiderDetails";
 import AuthRoute from "./routes/routes";
+import EditProfile from "./pages/Profile/EditProfile";
 
 function Layout() {
   return (
@@ -78,7 +79,7 @@ function App() {
           />
           <Route
             path="/success"
-            element={<AuthRoute element={SuccessfullPage} isPrivate={false} />}
+            element={<AuthRoute element={SuccessfullPage} isPrivate={true} />}
           />
           <Route
             path="/verify"
@@ -86,7 +87,11 @@ function App() {
           />
           <Route
             path="/home"
-            element={<AuthRoute element={HomePage} isPrivate={false} />}
+            element={<AuthRoute element={HomePage} isPrivate={true} />}
+          />
+          <Route
+            path="/edit"
+            element={<AuthRoute element={EditProfile} isPrivate={true} />}
           />
         </Route>
       </Routes>

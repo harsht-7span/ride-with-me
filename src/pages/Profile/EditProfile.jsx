@@ -1,17 +1,8 @@
-import {
-  Backarrow,
-  DisplayPhoto,
-  Camera,
-  DisplayEdit,
-  Name,
-  Phone,
-} from "@/icons";
+import { Arrow, User } from "@/assets/icons";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
-
-
   const navigate = useNavigate();
   const ProfilePage = () => {
     navigate(-1);
@@ -20,8 +11,10 @@ const EditProfile = () => {
   return (
     <div>
       <div className="mt-6 flex gap-5 ">
-        <Backarrow className="ml-5"   onClick={ProfilePage} />
-        <p className="font-semibold text-xl leading-5">Edit Profile</p>
+        <div onClick={ProfilePage}>
+          <Arrow />
+        </div>
+        <p className="font-semibold text-xl">Edit Profile</p>
       </div>
 
       <div className="mx-4 mt-[47px]">
@@ -30,13 +23,16 @@ const EditProfile = () => {
             htmlFor="filee"
             className="w-[138px] h-[138px] bg-white mt-9 text-center cursor-pointer"
           >
-            <DisplayEdit />
+            {/* <DisplayEdit /> */}
+            <div className="bg-blue-200 w-36 h-36 rounded-full">
+              <User className="h-full w-full" />
+            </div>
           </label>
           <input id="filee" type="file" className="w-16 h-16 hidden" />
         </div>
 
-        <div className="mt-8">
-          <p className="font-medium text-3xl leading-9 text-[#616161]">
+        <div className="pt-8">
+          <p className="font-medium text-3xl leading-9 text-gray-500 text-center">
             Anne Blake
           </p>
 
@@ -49,13 +45,13 @@ const EditProfile = () => {
             />
 
             {/* <Phone /> */}
-            <input
+            {/* <input
               type="tel"
               className="border w-[328px] h-[48px] rounded-lg pl-5 py-3"
               placeholder="Phone"
               maxLength={10}
               required
-            />
+            /> */}
 
             <button className="w-80 h-12 rounded-xl p-2 text-white bg-[#FF6C96] font-semibold text-sm leading-5 mx-auto mt-10">
               Save
