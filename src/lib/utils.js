@@ -19,7 +19,7 @@ export const setToken = (value) => {
   if (value) {
     localStorage.setItem("token", value?.token);
     localStorage.setItem("userId", value?.userId);
-    setAxiosToken(value);
+    setAxiosToken(value?.token);
   } else {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
