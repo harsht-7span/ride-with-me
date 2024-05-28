@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 // import { Rikshaw, Location, Verticleline, Driver, Phone } from "@/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "react-modern-drawer/dist/index.css";
 import Phone from "@/assets/icons/phone";
+import { MapContext } from "@/context/MapContext";
 
 const PaymentDetails = () => {
+  const {
+    selectedVehicle,
+    originInput: originString,
+    destinationInput: destinationString,
+    routeDistance,
+  } = useContext(MapContext);
+
+  const price = routeDistance
+    ? routeDistance.toFixed() * selectedVehicle.pricePerKm
+    : 0;
+
   const navigate = useNavigate();
 
   const paymode = () => {
@@ -21,14 +33,14 @@ const PaymentDetails = () => {
           <div className="flex flex-row mt-2">
             {/* <Location className="h-5 w-5" /> */}
             <p className=" font-normal text-sm text-[#A2A2A2] leading-5">
-              Marengo CIMS Hospital
+              {originString}
             </p>
           </div>
           {/* <Verticleline className="m-1 left-1 relative" /> */}
           <div className="flex flex-row mt-2">
             {/* <Location className="h-5 w-5" /> */}
             <p className=" font-normal text-sm text-[#A2A2A2] leading-5">
-              Marengo CIMS Hospital
+              {destinationString}
             </p>
           </div>
         </div>
@@ -40,8 +52,7 @@ const PaymentDetails = () => {
             Payment Details
           </h1>
           <p className="font-medium text-base leading-5 text-[#9E9E9E] mt-2 mb-2">
-            <span className="pr-2">₹</span>
-            <span>65</span>
+            <span className="pr-2">₹{price}</span>
           </p>
         </div>
 
