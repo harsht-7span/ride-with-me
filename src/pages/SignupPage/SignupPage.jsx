@@ -77,14 +77,14 @@ function SignUpPage() {
 
   return (
     <>
-      <div className="container pt-16">
+      <div className="container max-w-96 pt-16">
         <div className="flex justify-start">
           <h1 className="font-poppins text-black font-semibold text-4xl">
             Sign Up
           </h1>
         </div>
         <div className="flex justify-start mt-2">
-          <span className="text-gray-500 font-poppins text-sm font-normal">
+          <span className="text-gray-400 font-poppins text-sm font-normal">
             Please enter your details
           </span>
         </div>
