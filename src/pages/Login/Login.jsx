@@ -112,7 +112,7 @@ function Login() {
                           }}
                           type="number"
                           onWheel={numberInputOnWheelPreventChange}
-                          placeholder="mobile"
+                          placeholder="Mobile"
                           {...field}
                           className="text-gray-500 border-0"
                         />
@@ -129,14 +129,14 @@ function Login() {
           </form>
         </Form>
       </div>
-      {/* <div>
+      <div>
         <p className="text-center text-sm">
           Don’t have an account?{" "}
           <Link to="/signup" className="text-rose">
             Sign Up
           </Link>
         </p>
-      </div> */}
+      </div>
     </div>
   );
 }
