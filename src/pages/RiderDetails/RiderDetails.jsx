@@ -54,7 +54,7 @@ const RiderDetails = () => {
   }, []);
 
   const handleCancle = () => {
-    navigate("/home");
+    navigate("/");
   };
 
   const handlePay = () => {

@@ -7,7 +7,7 @@ export * from "@/assets/icons/phone";
 export * from "@/assets/icons/password";
 export * from "@/assets/icons/search";
 export * from "@/assets/icons/tick";
-
+export * from "@/assets/icons/UserOutline";
 export * from "@/assets/icons/locationMarker";
 export * from "@/assets/icons/Marker";
 export * from "@/assets/icons/xl";

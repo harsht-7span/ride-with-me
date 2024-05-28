@@ -16,8 +16,6 @@ import Phone from "@/assets/icons/phone";
 import { Link, useNavigate } from "react-router-dom";
 import { logIn } from "@/api/auth";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect } from "react";
-import RiderDetails from "../RiderDetails/RiderDetails";
 
 function Login() {
   const navigate = useNavigate();

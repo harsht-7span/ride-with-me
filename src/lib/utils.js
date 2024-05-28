@@ -10,16 +10,23 @@ export const getToken = () => {
   const token = localStorage.getItem("token");
   return token;
 };
+export const getUserId = () => {
+  const userId = localStorage.getItem("userId");
+  return userId;
+};
 
 export const setToken = (value) => {
   if (value) {
-    localStorage.setItem("token", value);
+    localStorage.setItem("token", value?.token);
+    localStorage.setItem("userId", value?.userId);
     setAxiosToken(value);
   } else {
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
   }
 };
 
 export const removeToken = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("userId");
 };

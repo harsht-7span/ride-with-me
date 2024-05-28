@@ -1,11 +1,69 @@
-import { Arrow, User } from "@/assets/icons";
-import React from "react";
+import { userId, updateUser } from "@/api/user"; // Adjust the import path as needed
+import { Arrow, UserOutline } from "@/assets/icons";
+import Email from "@/assets/icons/email";
+import { Input } from "@/components/ui";
+import { useToast } from "@/components/ui/use-toast";
+import { getUserId } from "@/lib/utils";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+  });
   const navigate = useNavigate();
   const ProfilePage = () => {
     navigate(-1);
+  };
+
+  const userIdlocal = getUserId();
+
+  const { toast } = useToast();
+
+  const fetchUserData = async () => {
+    try {
+      const response = await userId(userIdlocal);
+      if (response.data.success) {
+        setUserData(response.data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await updateUser(userData, userIdlocal);
+      if (response.data.success) {
+        toast({
+          variant: "success",
+          title: "Profile Updated",
+          isClosable: true,
+          autodismisstimeout: 1,
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Profile Updated",
+        isClosable: true,
+        autodismisstimeout: 1,
+      });
+    }
   };
 
   return (
@@ -23,9 +81,10 @@ const EditProfile = () => {
             htmlFor="filee"
             className="w-[138px] h-[138px] bg-white mt-9 text-center cursor-pointer"
           >
-            {/* <DisplayEdit /> */}
-            <div className="bg-blue-200 w-36 h-36 rounded-full">
-              <User className="h-full w-full" />
+            <div className="bg-blue-200 w-36 h-36 rounded-full flex items-center justify-center">
+              <h2 className="text-black font-semibold text-7xl">
+                {userData ? userData.name.charAt(0) : "U"}
+              </h2>
             </div>
           </label>
           <input id="filee" type="file" className="w-16 h-16 hidden" />
@@ -33,27 +92,38 @@ const EditProfile = () => {
 
         <div className="pt-8">
           <p className="font-medium text-3xl leading-9 text-gray-500 text-center">
-            Anne Blake
+            {userData.name}
           </p>
 
-          <div className="flex flex-col gap-3 mt-8 items-center ">
-            {/* <Name /> */}
-            <input
-              type="text"
-              className="border w-[328px] h-[48px] rounded-lg  pl-5 py-3 "
-              placeholder="Name"
-            />
+          <div className="flex flex-col gap-3 mt-8 items-center max-w-96 mx-auto ">
+            <div className="flex items-center border-2 rounded px-4 w-full">
+              <UserOutline className="text-gray-400 h-4 w-4" />
+              <Input
+                type="text"
+                name="name"
+                value={userData.name}
+                onChange={handleInputChange}
+                className="border-none w-80 h-12 rounded-lg pl-5 py-3"
+                placeholder="Name"
+              />
+            </div>
 
-            {/* <Phone /> */}
-            {/* <input
-              type="tel"
-              className="border w-[328px] h-[48px] rounded-lg pl-5 py-3"
-              placeholder="Phone"
-              maxLength={10}
-              required
-            /> */}
+            <div className="flex items-center border-2 rounded w-full px-4">
+              <Email className="text-gray-400 h-4 w-4" />
+              <Input
+                type="text"
+                name="email"
+                value={userData.email}
+                onChange={handleInputChange}
+                className="border-none w-80 h-12 rounded-lg pl-5 py-3"
+                placeholder="Email"
+              />
+            </div>
 
-            <button className="w-80 h-12 rounded-xl p-2 text-white bg-[#FF6C96] font-semibold text-sm leading-5 mx-auto mt-10">
+            <button
+              onClick={handleSave}
+              className="h-12 w-full rounded p-2 text-white bg-[#FF6C96] font-semibold text-sm mt-10"
+            >
               Save
             </button>
           </div>
