@@ -12,7 +12,7 @@ import EditProfile from "./pages/Profile/EditProfile";
 import PaymentMode from "./pages/Payment/PaymentMode";
 import SuccessfullPayment from "./pages/SuccessfullPayment/SuccessfullPayment";
 import CancelPayment from "./pages/CancelPayment/CancelPayment";
-import NotFound from "./pages/NotFound/NotFound";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 function Layout() {
   return (
@@ -62,16 +62,16 @@ function App() {
           <Route
             path="/successpayment"
             element={
-              <AuthRoute element={SuccessfullPayment} isPrivate={false} />
+              <AuthRoute element={SuccessfullPayment} isPrivate={true} />
             }
           />
           <Route
             path="/cancelpayment"
-            element={<AuthRoute element={CancelPayment} isPrivate={false} />}
+            element={<AuthRoute element={CancelPayment} isPrivate={true} />}
           />
           <Route
             path="*"
-            element={<AuthRoute element={NotFound} isPrivate={true} />}
+            element={<AuthRoute element={PageNotFound} isPrivate={true} />}
           />
         </Route>
       </Routes>
