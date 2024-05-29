@@ -1,6 +1,5 @@
 import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import ResetPage from "./pages/ResetPage/ResetPage";
 import SuccessfullPage from "./pages/Successfull/SuccessfullPage";
 import VerifyPage from "./pages/VerifyPage/VerifyPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
@@ -35,10 +34,7 @@ function App() {
             path="/signup"
             element={<AuthRoute element={SignupPage} isPrivate={false} />}
           />
-          <Route
-            path="/reset"
-            element={<AuthRoute element={ResetPage} isPrivate={false} />}
-          />
+          
           <Route
             path="/success"
             element={<AuthRoute element={SuccessfullPage} isPrivate={true} />}

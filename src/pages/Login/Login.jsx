@@ -76,7 +76,7 @@ function Login() {
   return (
     <div
       id="parent"
-      className="container w-screen h-screen flex flex-col justify-between pb-6"
+      className="container max-w-96 h-screen flex flex-col justify-between pb-6"
     >
       <div>
         <div id="loginImg" className="flex justify-center pb-3 pt-7">
@@ -84,7 +84,7 @@ function Login() {
         </div>
 
         <h1 className="text-2xl font-semibold text-center">
-          Welcome to Easy Go!
+          Welcome to EasyGo!
         </h1>
 
         <Form {...loginForm}>

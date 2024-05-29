@@ -25,7 +25,10 @@ function VerifyPage() {
   const { toast } = useToast();
 
   const phoneNumber = location.state;
-  const maskedPhoneNumber = `91xxx xx${phoneNumber.slice(-3)}`;
+  const maskedPhoneNumber = `${phoneNumber.slice(
+    0,
+    2
+  )}xxx xx${phoneNumber.slice(-3)}`;
 
   console.log(phoneNumber);
 
