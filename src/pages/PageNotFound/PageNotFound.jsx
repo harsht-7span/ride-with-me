@@ -1,6 +1,6 @@
 import React from "react";
 
-function NotFound() {
+function PageNotFound() {
   return (
     <div className="container flex items-center justify-center h-svh">
       <div className="flex flex-col justify-center items-center rounded-lg bg-congratsBg h-72">
@@ -18,4 +18,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default PageNotFound;
