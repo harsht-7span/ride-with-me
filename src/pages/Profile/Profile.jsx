@@ -17,7 +17,6 @@ const ProfilePage = ({ isOpen, toggleDrawer }) => {
       if (response.data.success) {
         setUserData(response.data.data);
       }
-      console.log(response.data.data);
     } catch (error) {
       console.error("Failed to fetch user data:", error);
     }
