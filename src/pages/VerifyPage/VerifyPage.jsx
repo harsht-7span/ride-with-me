@@ -1,5 +1,4 @@
 import { verifyOtp } from "@/api/auth";
-import React from "react";
 import {
   Form,
   FormControl,
@@ -24,7 +23,6 @@ function VerifyPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [otp, setotp] = React.useState("");
 
   const phoneNumber = location.state;
   const maskedPhoneNumber = `${phoneNumber.slice(
@@ -71,9 +69,9 @@ function VerifyPage() {
 
   return (
     <div>
-      <div className="container pt-16 max-w-96">
+      <div className="container pt-16">
         <div className="flex justify-start">
-          <h1 className="text-4xl text-black font-semibold font-poppins">Verify</h1>
+          <h1 className="text-4xl text-black font-poppins">Verify</h1>
         </div>
 
         <div className="flex justify-start mt-2">
@@ -93,36 +91,23 @@ function VerifyPage() {
                   return (
                     <FormItem>
                       <FormControl>
-                        <InputOTP
-                          maxLength={4}
-                          {...field}
-                          value={otp}
-                          onChange={(value) => setotp(value)}
-                        >
+                        <InputOTP maxLength={4} {...field} className="rounded">
                           <InputOTPGroup className="space-x-4">
                             <InputOTPSlot
                               index={0}
-                              className={`w-[70px] h-[72px] font-Poppins text-5xl leading-[72px] rounded-[16px] px-2 py-0 border border-[#9E9E9E]  ${
-                                otp.length > 0 ? "border-[#FF6C96]" : ""
-                              }`}
+                              className="w-[70px] h-[72px] font-Poppins text-5xl leading-[72px]  px-2 py-0 border border-[#9E9E9E] focus:ring-rose focus:border-rose"
                             />
                             <InputOTPSlot
                               index={1}
-                              className={`w-[70px] h-[72px] font-Poppins text-5xl leading-[72px] rounded-[16px] px-2 py-0 border border-[#9E9E9E]  ${
-                                otp.length > 1 ? "border-[#FF6C96]" : ""
-                              }`}
+                              className="w-[70px] h-[72px] font-Poppins text-5xl leading-[72px] px-2 py-0 border border-[#9E9E9E]"
                             />
                             <InputOTPSlot
                               index={2}
-                              className={`w-[70px] h-[72px] font-Poppins text-5xl leading-[72px] rounded-[16px] px-2 py-0 border border-[#9E9E9E]  ${
-                                otp.length > 2 ? "border-[#FF6C96]" : ""
-                              }`}
+                              className=" w-[70px] h-[72px] font-Poppins text-5xl leading-[72px]  px-2 py-0 border border-[#9E9E9E]"
                             />
                             <InputOTPSlot
                               index={3}
-                              className={`w-[70px] h-[72px] font-Poppins text-5xl leading-[72px] rounded-[16px] px-2 py-0 border border-[#9E9E9E]  ${
-                                otp.length > 3 ? "border-[#FF6C96]" : ""
-                              }`}
+                              className="w-[70px] h-[72px] font-Poppins text-5xl leading-[72px]  px-2 py-0 border border-[#9E9E9E]"
                             />
                           </InputOTPGroup>
                         </InputOTP>
