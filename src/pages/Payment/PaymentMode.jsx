@@ -1,5 +1,5 @@
 import { Arrow } from "@/assets/icons";
-import { ArrowLeft, Camera, User } from 'lucide-react';
+import { ArrowLeft, Camera, User } from "lucide-react";
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ const PaymentMode = () => {
         <div className="mt-4 flex gap-6">
           <div onClick={goBack} className="cursor-pointer">
             {/* <Arrow className="mt-2 ml-2 cursor-pointer" /> */}
-            <ArrowLeft className="mt-2 ml-2 cursor-pointer"  />
+            <ArrowLeft className="mt-2 ml-2 cursor-pointer" />
           </div>
           <p className="font-semibold text-xl leading-7">Payment Information</p>
         </div>
@@ -26,11 +26,10 @@ const PaymentMode = () => {
 
         <div className="flex flex-col mt-7">
           <div>
-            
             <p className="font-normal flex justify-start text-sm leading-5 text-[#424242]">
               Full Name
             </p>
-            
+
             <input
               type="text"
               className="border w-full h-[48px] rounded-lg  pl-5 py-3 "

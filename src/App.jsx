@@ -9,6 +9,9 @@ import { Toaster } from "./components/ui/toaster";
 import AuthRoute from "./routes/routes";
 import EditProfile from "./pages/Profile/EditProfile";
 import PaymentMode from "./pages/Payment/PaymentMode";
+import SuccessfullPayment from "./pages/SuccessfullPayment/SuccessfullPayment";
+import CancelPayment from "./pages/CancelPayment/CancelPayment";
+import NotFound from "./pages/NotFound/NotFound";
 
 function Layout() {
   return (
@@ -51,6 +54,20 @@ function App() {
           <Route
             path="/paymode"
             element={<AuthRoute element={PaymentMode} isPrivate={true} />}
+          />
+          <Route
+            path="/successpayment"
+            element={
+              <AuthRoute element={SuccessfullPayment} isPrivate={false} />
+            }
+          />
+          <Route
+            path="/cancelpayment"
+            element={<AuthRoute element={CancelPayment} isPrivate={false} />}
+          />
+          <Route
+            path="*"
+            element={<AuthRoute element={NotFound} isPrivate={true} />}
           />
         </Route>
       </Routes>

@@ -12,15 +12,18 @@ import { LocationMarker } from "@/assets/icons";
 
 const RiderDetails = () => {
   const { setSnap, setView } = useContext(MapContext);
-  const [driver, setDriver] = useState(null);
-  const [driverId, setDriverId] = useState(null);
-  const [vehicleID, setVehicleId] = useState(null);
+  const [drivers, setDrivers] = useState(null);
+
   const [isLoading, setIsLoading] = useState(true);
   const {
     selectedVehicle,
     originInput: originString,
     destinationInput: destinationString,
     routeDistance,
+    vehicleID,
+    setVehicleId,
+    driverId,
+    setDriverId,
   } = useContext(MapContext);
 
   const navigate = useNavigate();
@@ -34,7 +37,7 @@ const RiderDetails = () => {
     try {
       const allDriversResponse = await getAllDriver();
       const driverData = allDriversResponse.data.data[0];
-      setDriver(driverData);
+      setDrivers(driverData);
 
       const driverByIdResponse = await driverByID("66541be363af318f355d340a");
       setDriverId(driverByIdResponse.data.data.driver);
@@ -151,7 +154,7 @@ const RiderDetails = () => {
           <User className="h-8 w-8" />
         </div>
         <p className="font-medium text-base leading-6 max-w-24 -left-14 relative">
-          {driver?.name}
+          {driverId?.name}
           <p className="font-normal text-sm text-[#757575]">
             {vehicleID?.licensePlate}
           </p>
