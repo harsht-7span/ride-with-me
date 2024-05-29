@@ -15,9 +15,15 @@ export const MapProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState("form");
   const [snap, setSnap] = useState(1);
+  const [driverId, setDriverId] = useState(null);
+  const [vehicleID, setVehicleId] = useState(null);
   return (
     <MapContext.Provider
       value={{
+        driverId,
+        setDriverId,
+        vehicleID,
+        setVehicleId,
         view,
         setView,
         open,

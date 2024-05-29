@@ -75,7 +75,10 @@ const PaymentMode = () => {
           />
         </div>
         <div>
-          <button className="w-full h-12 rounded-xl p-2 text-white bg-[#FF6C96] font-semibold text-sm leading-5 mx-auto mt-8">
+          <button
+            onClick={handleCheckout}
+            className="w-full h-12 rounded-xl p-2 text-white bg-[#FF6C96] font-semibold text-sm leading-5 mx-auto mt-8"
+          >
             Confirm Payment
           </button>
           <p className="font-normal flex justify-start text-xs leading-4 mb-20">

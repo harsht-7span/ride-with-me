@@ -6,7 +6,7 @@ import { booking } from "@/api/booking";
 import { MapContext } from "@/context/MapContext";
 import { Button } from "../ui";
 import { handler } from "tailwindcss-animate";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Booking = () =>
   //{
@@ -32,51 +32,57 @@ const Booking = () =>
       setSnap,
     } = useContext(MapContext);
 
-    console.log(selectedVehicle);
+    const location = useLocation();
 
+    console.log(location);
     const price = routeDistance
       ? routeDistance.toFixed() * selectedVehicle.pricePerKm
       : 0;
 
+    const payload = {
+      vehicleClass: selectedVehicle.type,
+      pickupLocation: originString,
+      dropoffLocation: destinationString,
+      origin: {
+        type: "Point",
+        coordinates: originCoordinates,
+      },
+      destination: {
+        type: "Point",
+        coordinates: destinationCoordinates,
+      },
+      fare: price,
+    };
+
+    const makeBooking = async () => {
+      try {
+        const response = await booking(payload);
+        console.log(response.data.data);
+
+        const id = response.data.data._id;
+        console.log(id);
+
+        navigate(`${location.pathname}?bookingId=${id}`);
+
+        toast({
+          variant: "success",
+          autodismisstimeout: 1,
+          title: "Booking Confirmed",
+          description: `Your booking has been confirmed with a fare of ₹${price}`,
+          status: "success",
+        });
+      } catch (error) {
+        toast({
+          autodismisstimeout: 1,
+          variant: "destructive",
+          title: "Booking Failed",
+          description: `There was an issue confirming your booking: ${error.message}`,
+          status: "error",
+        });
+      }
+    };
+
     useEffect(() => {
-      // const payload = {
-      //   vehicleClass: selectedVehicle.type,
-      //   pickupLocation: originString,
-      //   dropoffLocation: destinationString,
-      //   origin: {
-      //     type: "Point",
-      //     coordinates: originCoordinates,
-      //   },
-      //   destination: {
-      //     type: "Point",
-      //     coordinates: destinationCoordinates,
-      //   },
-      //   fare: price,
-      // };
-
-      const makeBooking = async () => {
-        try {
-          const response = await booking(payload);
-          // console.log(response);
-
-          toast({
-            variant: "success",
-            autodismisstimeout: 1,
-            title: "Booking Confirmed",
-            description: `Your booking has been confirmed with a fare of ₹${price}`,
-            status: "success",
-          });
-        } catch (error) {
-          toast({
-            autodismisstimeout: 1,
-            variant: "destructive",
-            title: "Booking Failed",
-            description: `There was an issue confirming your booking: ${error.message}`,
-            status: "error",
-          });
-        }
-      };
-
       makeBooking();
     }, [
       selectedVehicle,
