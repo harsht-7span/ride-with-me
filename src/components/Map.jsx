@@ -3,6 +3,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { MapContext } from "../context/MapContext";
 import ProfilePage from "@/pages/Profile/Profile";
+import Menu from "@/assets/icons/menu";
 
 const Map = () => {
   const mapContainerRef = useRef(null);
@@ -75,10 +76,6 @@ const Map = () => {
 
       map.addControl(geolocate);
 
-      map.on("load", () => {
-        geolocate.trigger();
-      });
-
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
         unit: "metric",
@@ -109,6 +106,10 @@ const Map = () => {
         }
       });
 
+      map.on("load", () => {
+        geolocate.trigger();
+      });
+
       setMap(map);
       setDirections(directions);
     }
@@ -124,21 +125,12 @@ const Map = () => {
         ref={mapContainerRef}
         className="map-wrap w-full h-screen overflow-hidden"
       />
-      <div className="fixed top-0 cursor-pointer" onClick={toggleProfileDrawer}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-8 w-8 text-black"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M4 6h16M4 12h16m-7 6h7"
-          />
-        </svg>
+
+      <div
+        className="fixed top-0 cursor-pointer p-4"
+        onClick={toggleProfileDrawer}
+      >
+        <Menu />
       </div>
       <ProfilePage
         isOpen={isProfileVisible}

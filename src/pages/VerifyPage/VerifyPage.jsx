@@ -30,8 +30,6 @@ function VerifyPage() {
     2
   )}xxx xx${phoneNumber.slice(-3)}`;
 
-  console.log(phoneNumber);
-
   const otpForm = useForm({
     resolver: zodResolver(otpSchema),
     defaultValues: {
@@ -50,7 +48,6 @@ function VerifyPage() {
 
     verifyOtp(payload)
       .then((res) => {
-        console.log(res);
         setToken(res.data);
         toast({
           variant: "success",
@@ -63,6 +60,7 @@ function VerifyPage() {
           variant: "destructive",
           title: res.data.message,
         });
+        navigate("/signup");
       });
     otpForm.reset();
   };
