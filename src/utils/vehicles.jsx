@@ -26,7 +26,7 @@ export const vehicles = [
     pricePerKm: 50,
   },
   {
-    type: "Xl",
+    type: "XL",
     description: "Spacious sedans, top drivers",
     icon: <Xl />,
     pricePerKm: 60,

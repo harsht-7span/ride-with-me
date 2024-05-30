@@ -6,6 +6,8 @@ import { getUserId } from "@/lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { userId } from "@/api/user";
+import { useToast } from "@/components/ui/use-toast";
+import { User } from "@/assets/icons";
 
 const PaymentDetails = () => {
   const {
@@ -22,6 +24,8 @@ const PaymentDetails = () => {
   const [bookingId, setBookingId] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { toast } = useToast();
 
   const price = routeDistance
     ? routeDistance.toFixed() * selectedVehicle.pricePerKm
@@ -54,6 +58,29 @@ const PaymentDetails = () => {
     const bookingIdparams = params.get("bookingId");
     setBookingId(bookingIdparams);
   }, [location.search]);
+
+  const handlePhone = () => {
+    const phoneNumber = driverId[0]?.phoneNumber;
+
+    if (phoneNumber) {
+      navigator.clipboard
+        .writeText(phoneNumber)
+        .then(() => {
+          toast({
+            variant: "success",
+            autodismisstimeout: 1,
+            title: "Copied",
+            description: `${phoneNumber}`,
+            status: "success",
+          });
+        })
+        .catch((err) => {
+          console.error("Failed to copy phone number:", err);
+        });
+    } else {
+      console.log("Phone number is not available");
+    }
+  };
 
   const checkOut = async () => {
     if (!userData) {
@@ -125,19 +152,17 @@ const PaymentDetails = () => {
         <hr />
 
         <div className="flex flex-row justify-between mt-6">
-          <img
-            src="./src/assets/driver.png"
-            alt="driver"
-            className="h-12 w-12"
-          />
+          <div>
+            <User className="h-8 w-8" />
+          </div>
           <p className="font-medium text-base leading-6 max-w-24 -left-14 relative">
-            David Black{" "}
-            <span className="font-normal text-sm text-[#757575]">
-              {vehicleID?.licensePlate}
-            </span>
+            {driverId[0]?.name}
+            <p className="font-normal text-sm text-[#757575]">
+              {driverId[0]?.phoneNumber}
+            </p>
           </p>
 
-          <div>
+          <div onClick={handlePhone} className="cursor-pointer">
             <Phone className="h-8 w-8 mr-4" />
           </div>
         </div>

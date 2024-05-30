@@ -60,13 +60,14 @@ function Login() {
         navigate("/verify", { state: phoneNumber });
       })
       .catch((res) => {
+        console.log(res);
         toast({
           variant: "destructive",
-          title: "NO USER FOUND!!" || res.message,
+          title: res.message || "NO USER FOUND!!",
           isClosable: true,
           autodismisstimeout: 1,
         });
-        // navigate("/signup");
+        navigate("/signup");
         // navigate("/verify");
       });
 

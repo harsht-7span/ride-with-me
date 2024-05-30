@@ -14,12 +14,16 @@ import {
 import Phone from "@/assets/icons/phone";
 import { User } from "@/assets/icons";
 import Email from "@/assets/icons/email";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { setToken } from "@/lib/utils";
 
 function SignUpPage() {
+  const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const phoneNumber = location.state;
 
   const numberInputOnWheelPreventChange = (e) => {
     // Prevent the input value change
@@ -37,7 +41,7 @@ function SignUpPage() {
     resolver: zodResolver(signupSchema),
     defaultValues: {
       name: "",
-      phoneNumber: "",
+      phoneNumber: phoneNumber,
       email: "",
       role: "user",
     },
@@ -58,12 +62,13 @@ function SignUpPage() {
 
     signUp(payload)
       .then((res) => {
-        console.log(res);
+        setToken(res.data);
         toast({
           variant: "success",
           title: res.data.message,
         });
-        navigate("/verify", { state: phoneNumber });
+        // navigate("/verify", { state: phoneNumber });
+        navigate("/");
       })
       .catch((res) => {
         toast({
