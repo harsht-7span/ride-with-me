@@ -5,8 +5,8 @@ import { Marker } from "@/assets/icons";
 import { booking } from "@/api/booking";
 import { MapContext } from "@/context/MapContext";
 import { Button } from "../ui";
-import { handler } from "tailwindcss-animate";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getUserId } from "@/lib/utils";
 
 const Booking = () =>
   //{
@@ -20,6 +20,7 @@ const Booking = () =>
   {
     const { toast } = useToast();
     const navigate = useNavigate();
+    const userIdlocal = getUserId();
 
     const {
       selectedVehicle,
@@ -34,7 +35,6 @@ const Booking = () =>
 
     const location = useLocation();
 
-    console.log(location);
     const price = routeDistance
       ? routeDistance.toFixed() * selectedVehicle.pricePerKm
       : 0;
@@ -52,6 +52,7 @@ const Booking = () =>
         coordinates: destinationCoordinates,
       },
       fare: price,
+      customer: userIdlocal,
     };
 
     const makeBooking = async () => {
