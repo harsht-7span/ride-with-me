@@ -31,6 +31,7 @@ const Booking = () =>
       destinationCoordinates,
       setView,
       setSnap,
+      setBookingId,
     } = useContext(MapContext);
 
     const location = useLocation();
@@ -59,6 +60,7 @@ const Booking = () =>
       try {
         const response = await booking(payload);
         const id = response.data.data._id;
+        setBookingId(id);
 
         navigate(`${location.pathname}?bookingId=${id}`);
 

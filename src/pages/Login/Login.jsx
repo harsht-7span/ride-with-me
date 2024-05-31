@@ -22,10 +22,8 @@ function Login() {
   const { toast } = useToast();
 
   const numberInputOnWheelPreventChange = (e) => {
-    // Prevent the input value change
     e.target.blur();
 
-    // Prevent the page/container scrolling
     e.stopPropagation();
 
     setTimeout(() => {
@@ -60,15 +58,12 @@ function Login() {
         navigate("/verify", { state: phoneNumber });
       })
       .catch((res) => {
-        console.log(res);
         toast({
           variant: "destructive",
           title: res.message || "NO USER FOUND!!",
           isClosable: true,
           autodismisstimeout: 1,
         });
-        navigate("/signup");
-        // navigate("/verify");
       });
 
     loginForm.reset();

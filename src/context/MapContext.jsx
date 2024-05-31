@@ -17,9 +17,12 @@ export const MapProvider = ({ children }) => {
   const [snap, setSnap] = useState(1);
   const [driverId, setDriverId] = useState(null);
   const [vehicleID, setVehicleId] = useState(null);
+  const [bookingId, setBookingId] = useState(null);
   return (
     <MapContext.Provider
       value={{
+        bookingId,
+        setBookingId,
         driverId,
         setDriverId,
         vehicleID,
