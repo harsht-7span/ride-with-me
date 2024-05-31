@@ -31,8 +31,14 @@ const ProfilePage = ({ isOpen, toggleDrawer }) => {
     navigate("/login");
   };
 
+  const about = () => {
+    navigate("/about");
+  };
   const edit = () => {
     navigate("/edit");
+  };
+  const help = () => {
+    navigate("/help");
   };
 
   return (
@@ -70,11 +76,11 @@ const ProfilePage = ({ isOpen, toggleDrawer }) => {
               <p className="text-left">Edit Profile</p>
             </div>
             <hr />
-            <div className="flex flex-row mt-2 mb-4">
+            <div onClick={about} className="flex flex-row mt-2 mb-4">
               <p className="text-left">About Us</p>
             </div>
             <hr />
-            <div className="flex flex-row  mt-2 mb-4">
+            <div onClick={help} className="flex flex-row  mt-2 mb-4">
               <p className="text-left">Help and Support</p>
             </div>
             <hr />
