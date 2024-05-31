@@ -67,14 +67,14 @@ function SignUpPage() {
           variant: "success",
           title: res.data.message,
         });
-        // navigate("/verify", { state: phoneNumber });
         navigate("/");
       })
       .catch((res) => {
         toast({
           variant: "destructive",
-          title: res.data.message,
+          title: res.response.data.message,
         });
+        navigate("/login");
       });
 
     signupForm.reset();

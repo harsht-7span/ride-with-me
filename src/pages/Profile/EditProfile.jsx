@@ -59,7 +59,7 @@ const EditProfile = () => {
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Profile Updated",
+        title: "Something's Wrong",
         isClosable: true,
         autodismisstimeout: 1,
       });

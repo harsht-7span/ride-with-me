@@ -14,6 +14,7 @@ import CancelPayment from "./pages/CancelPayment/CancelPayment";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import About from "./pages/Profile/About";
 import Help from "./pages/Profile/Help";
+import Home from "./components/Home";
 
 function Layout() {
   return (
@@ -47,7 +48,7 @@ function App() {
           />
           <Route
             path="/"
-            element={<AuthRoute element={HomePage} isPrivate={true} />}
+            element={<AuthRoute element={Home} isPrivate={true} />}
           />
           <Route
             path="/edit"
@@ -75,10 +76,7 @@ function App() {
             path="/cancelpayment"
             element={<AuthRoute element={CancelPayment} isPrivate={true} />}
           />
-          <Route
-            path="*"
-            element={<AuthRoute element={PageNotFound} isPrivate={true} />}
-          />
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
       <Toaster />

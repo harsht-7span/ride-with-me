@@ -76,15 +76,24 @@ const ProfilePage = ({ isOpen, toggleDrawer }) => {
               <p className="text-left">Edit Profile</p>
             </div>
             <hr />
-            <div onClick={about} className="flex flex-row mt-2 mb-4">
+            <div
+              onClick={about}
+              className="flex flex-row mt-2 mb-4  w-full cursor-pointer"
+            >
               <p className="text-left">About Us</p>
             </div>
             <hr />
-            <div onClick={help} className="flex flex-row  mt-2 mb-4">
+            <div
+              onClick={help}
+              className="flex flex-row  mt-2 mb-4  w-full cursor-pointer"
+            >
               <p className="text-left">Help and Support</p>
             </div>
             <hr />
-            <div className="flex flex-row mt-2 mb-4" onClick={handleLogout}>
+            <div
+              className="flex flex-row mt-2 mb-4  w-full cursor-pointer"
+              onClick={handleLogout}
+            >
               <p className="text-left">Logout</p>
             </div>
             <hr />
