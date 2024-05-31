@@ -58,10 +58,7 @@ const Booking = () =>
     const makeBooking = async () => {
       try {
         const response = await booking(payload);
-        console.log(response.data.data);
-
         const id = response.data.data._id;
-        console.log(id);
 
         navigate(`${location.pathname}?bookingId=${id}`);
 

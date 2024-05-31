@@ -209,7 +209,7 @@ const RouteForm = ({ handleRouteSearch, handleBooking }) => {
           <Button
             type="button"
             onClick={handleRouteSearch}
-            className="rounded-[8px] w-full"
+            className="rounded-[8px] w-full "
           >
             Confirm Location
           </Button>

@@ -40,6 +40,7 @@ const PaymentDetails = () => {
     try {
       const response = await userId(userIdlocal);
       if (response.data.success) {
+        console.log(userData);
         setUserData(response.data.data);
       }
     } catch (error) {

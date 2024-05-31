@@ -26,7 +26,7 @@ body {
   padding: 10px;
   height: 30px;
   width: 30px;
-  position: absolute;
+  position: fixed;
   top: auto;
   right: 0px;
   background-color: white;
