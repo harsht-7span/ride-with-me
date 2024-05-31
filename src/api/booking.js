@@ -6,3 +6,10 @@ export const booking = async (data) => {
   };
   return axiosClient.post("/booking", payload);
 };
+
+export const updateBooking = async (data, id) => {
+  let payload = {
+    ...data,
+  };
+  return axiosClient.put(`/booking/${id}`, payload);
+};

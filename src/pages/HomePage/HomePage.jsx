@@ -1,4 +1,4 @@
-import Test2 from "@/components/Test2";
+import Test2 from "@/components/Home";
 
 function HomePage() {
   return (

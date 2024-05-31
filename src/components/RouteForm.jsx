@@ -209,15 +209,15 @@ const RouteForm = ({ handleRouteSearch, handleBooking }) => {
           <Button
             type="button"
             onClick={handleRouteSearch}
-            className="rounded-[8px] w-full "
+            className="rounded-[8px] w-full fixed bottom-3 "
           >
             Confirm Location
           </Button>
-          {routeDistance !== null && (
+          {/* {routeDistance !== null && (
             <p className="text-center mt-2">
               Route Distance: {routeDistance.toFixed(2)}km
             </p>
-          )}
+          )} */}
         </div>
         {/* {routeDistance !== null && (
           <VehicleSelect

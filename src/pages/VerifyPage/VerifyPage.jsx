@@ -58,9 +58,9 @@ function VerifyPage() {
       .catch((res) => {
         toast({
           variant: "destructive",
-          title: res.data.message,
+          title: res.response.data.message,
         });
-        navigate("/signup");
+        navigate("/signup", { state: phoneNumber });
       });
     otpForm.reset();
   };
