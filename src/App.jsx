@@ -12,6 +12,8 @@ import PaymentMode from "./pages/Payment/PaymentMode";
 import SuccessfullPayment from "./pages/SuccessfullPayment/SuccessfullPayment";
 import CancelPayment from "./pages/CancelPayment/CancelPayment";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import About from "./pages/Profile/About";
+import Help from "./pages/Profile/Help";
 
 function Layout() {
   return (
@@ -34,7 +36,7 @@ function App() {
             path="/signup"
             element={<AuthRoute element={SignupPage} isPrivate={false} />}
           />
-          
+
           <Route
             path="/success"
             element={<AuthRoute element={SuccessfullPage} isPrivate={true} />}
@@ -50,6 +52,14 @@ function App() {
           <Route
             path="/edit"
             element={<AuthRoute element={EditProfile} isPrivate={true} />}
+          />
+          <Route
+            path="/about"
+            element={<AuthRoute element={About} isPrivate={true} />}
+          />
+          <Route
+            path="/help"
+            element={<AuthRoute element={Help} isPrivate={true} />}
           />
           <Route
             path="/paymode"
