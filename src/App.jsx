@@ -3,7 +3,6 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import SuccessfullPage from "./pages/Successfull/SuccessfullPage";
 import VerifyPage from "./pages/VerifyPage/VerifyPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
-import HomePage from "./pages/HomePage/HomePage";
 import Login from "./pages/Login/Login";
 import { Toaster } from "./components/ui/toaster";
 import AuthRoute from "./routes/routes";

@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Button } from "./ui";
-import { VehicleCard } from "./mapPageComponents/vehicleCard";
 import { vehicles } from "@/utils/vehicles";
 import { MapContext } from "@/context/MapContext";
 import GreenDot from "@/assets/icons/greenDot";
 import RedDot from "@/assets/icons/redDot";
+import { VehicleCard } from "./vehicleCard";
 
 const VehicleSelect = ({
   routeDistance,
