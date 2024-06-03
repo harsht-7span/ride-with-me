@@ -27,7 +27,7 @@ body {
   height: 30px;
   width: 30px;
   position: fixed;
-  top: auto;
+
   right: 0px;
   background-color: white;
   border-radius: 10%;
@@ -35,7 +35,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   z-index: 1;
-  top: 4%;
+  top: 2%;
   right: 2%;
 }
 /* 

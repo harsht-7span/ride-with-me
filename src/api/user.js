@@ -11,3 +11,7 @@ export const updateUser = async (data, id) => {
 
   return axiosClient.put(`user?id=${id}`, payload);
 };
+
+export const deleteUser = async (id) => {
+  return axiosClient.delete(`user?id=${id}`);
+};

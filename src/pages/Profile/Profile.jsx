@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import { getUserId, removeToken } from "@/lib/utils";
-import { userId } from "@/api/user";
+import { deleteUser, userId } from "@/api/user";
 
 const ProfilePage = ({ isOpen, toggleDrawer }) => {
   const navigate = useNavigate();
@@ -26,8 +26,13 @@ const ProfilePage = ({ isOpen, toggleDrawer }) => {
     fetchUserData();
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     removeToken();
+    try {
+      await deleteUser(userIdlocal);
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
     navigate("/login");
   };
 
