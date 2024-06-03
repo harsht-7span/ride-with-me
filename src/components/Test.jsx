@@ -4,7 +4,7 @@ import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 import { Button, Input } from "./ui";
 import { Marker } from "@/assets/icons/index";
 import { Drawer } from "vaul";
-import { VehicleCard } from "./mapPageComponents/vehicleCard";
+import { VehicleCard } from "./vehicleCard";
 import { LocationSchema } from "../validation/index";
 import { useToast } from "./ui/use-toast";
 import { AddressAutofill } from "@mapbox/search-js-react";
