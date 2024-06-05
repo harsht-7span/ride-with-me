@@ -94,8 +94,8 @@ const PaymentDetails = () => {
         {
           fullName: userData.name,
           fare: price,
-          userId: userIdlocal,
-          bookingId: bookingId,
+          customer: userIdlocal,
+          booking: bookingId,
           paymentMethod: "cash",
           status: "pending",
         },
