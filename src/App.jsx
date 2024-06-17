@@ -54,11 +54,11 @@ function App() {
           />
           <Route
             path="/about"
-            element={<AuthRoute element={About} isPrivate={true} />}
+            element={<AuthRoute element={About} isPrivate={false} />}
           />
           <Route
             path="/help"
-            element={<AuthRoute element={Help} isPrivate={true} />}
+            element={<AuthRoute element={Help} isPrivate={false} />}
           />
           <Route
             path="/paymode"
