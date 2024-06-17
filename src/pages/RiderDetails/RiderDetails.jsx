@@ -2,7 +2,7 @@
 // import OtpInput from "react-otp-input";
 // import Drawer from "react-modern-drawer";
 // import "react-modern-drawer/dist/index.css";
-// import { driverByID, getAllDriver } from "@/api/driver";
+// import { driverByID, driverOtp, getAllDriver, rideRequest } from "@/api/driver";
 // import { useLocation, useNavigate } from "react-router-dom";
 // import { MapContext } from "@/context/MapContext";
 // import Phone from "@/assets/icons/phone";
@@ -15,6 +15,7 @@
 //   const { setSnap, setView } = useContext(MapContext);
 //   const [drivers, setDrivers] = useState(null);
 //   const [isLoading, setIsLoading] = useState(true);
+//   const [driversAvailable, setDriversAvailable] = useState(false);
 //   const location = useLocation();
 
 //   const {
@@ -38,28 +39,41 @@
 
 //   const fetchData = async () => {
 //     try {
-//       const allDriversResponse = await getAllDriver();
-//       if (allDriversResponse.data.data.length === 0) {
-//         toast({
-//           variant: "destructive",
-//           autodismisstimeout: 1,
-//           title: "No Drivers Available",
-//           description: "No drivers found. Please try again later.",
-//         });
-//         setIsLoading(false);
-//         return;
-//       }
-//       const driverData = allDriversResponse.data.data[0];
+//       const allDriversResponse = await rideRequest();
+
+//       // if (allDriversResponse.data.driverDetails.length === 0) {
+//       toast({
+//         variant: "destructive",
+//         autodismisstimeout: 1,
+//         title: allDriversResponse.data.message,
+//         description: "No drivers found. Please try again later.",
+//       });
+//       setIsLoading(false);
+//       setDriversAvailable(false);
+//       // return;
+//       // }
+
+//       const driverData = allDriversResponse.data;
 //       setDrivers(driverData);
 
-//       const driverByIdResponse = await driverByID(driverData._id);
+//       // const driverByIdResponse = await driverByID(driverData._id);
 
-//       setDriverId(driverByIdResponse.data.data);
-//       // setVehicleId(driverByIdResponse.data.data.vehicles);
+//       // const getOtp = await driverOtp(driverData._id);
+//       // console.log(getOtp);
+
+//       // setDriverId(driverByIdResponse.data.data);
+//       setDriversAvailable(true);
 //       setIsLoading(false);
 //     } catch (error) {
 //       console.error("Error fetching data:", error);
+//       toast({
+//         variant: "destructive",
+//         autodismisstimeout: 1,
+//         title: "Error",
+//         description: "Failed to fetch data. Please try again later.",
+//       });
 //       setIsLoading(false);
+//       setDriversAvailable(false);
 //     }
 //   };
 
@@ -77,6 +91,12 @@
 //       setView("form");
 //     } catch (error) {
 //       console.error("Failed to cancel the booking:", error);
+//       toast({
+//         variant: "error",
+//         autodismisstimeout: 1,
+//         title: "Cancellation Failed",
+//         description: "Failed to cancel the booking. Please try again.",
+//       });
 //     }
 //   };
 
@@ -86,7 +106,6 @@
 
 //   const handlePhone = () => {
 //     const phoneNumber = driverId?.[0]?.phoneNumber;
-
 //     if (phoneNumber) {
 //       navigator.clipboard
 //         .writeText(phoneNumber)
@@ -101,9 +120,20 @@
 //         })
 //         .catch((err) => {
 //           console.error("Failed to copy phone number:", err);
+//           toast({
+//             variant: "destructive",
+//             autodismisstimeout: 1,
+//             title: "Copy Failed",
+//             description: "Failed to copy phone number. Please try again.",
+//           });
 //         });
 //     } else {
-//       console.log("Phone number is not available");
+//       toast({
+//         variant: "destructive",
+//         autodismisstimeout: 1,
+//         title: "No Phone Number",
+//         description: "Phone number is not available for this driver.",
+//       });
 //     }
 //   };
 
@@ -188,6 +218,7 @@
 //       <button
 //         onClick={handlePay}
 //         className="w-full h-12 rounded-xl p-2 text-white bg-[#FF6C96] font-semibold text-sm leading-5 mx-auto mt-5"
+//         disabled={!driversAvailable}
 //       >
 //         Pay
 //       </button>
@@ -208,7 +239,7 @@ import React, { useContext, useState, useEffect } from "react";
 import OtpInput from "react-otp-input";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import { driverByID, getAllDriver } from "@/api/driver";
+import { driverByID, driverOtp, getAllDriver, rideRequest } from "@/api/driver";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MapContext } from "@/context/MapContext";
 import Phone from "@/assets/icons/phone";
@@ -245,35 +276,31 @@ const RiderDetails = () => {
 
   const fetchData = async () => {
     try {
-      const allDriversResponse = await getAllDriver();
-      if (allDriversResponse.data.data.length === 0) {
+      const allDriversResponse = await rideRequest();
+      const driverData = allDriversResponse.data;
+
+      if (driverData.driverDetails.length === 0) {
         toast({
-          variant: "error",
+          variant: "destructive",
           autodismisstimeout: 1,
-          title: "No Drivers Available",
-          description: "No drivers found. Please try again later.",
+          title: allDriversResponse.data.message,
+          description: "No drivers found within 2 km. Please try again later.",
         });
         setIsLoading(false);
         setDriversAvailable(false);
         return;
       }
 
-      const driverData = allDriversResponse.data.data[0];
-      setDrivers(driverData);
-
-      const driverByIdResponse = await driverByID(driverData._id);
-
-      setDriverId(driverByIdResponse.data.data);
+      setDrivers(driverData.driverDetails);
       setDriversAvailable(true);
       setIsLoading(false);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      toast({
-        variant: "error",
-        autodismisstimeout: 1,
-        title: "Error",
-        description: "Failed to fetch data. Please try again later.",
-      });
+      // toast({
+      //   variant: "destructive",
+      //   autodismisstimeout: 1,
+      //   title: "Error",
+      //   description: "Failed to fetch data. Please try again later.",
+      // });
       setIsLoading(false);
       setDriversAvailable(false);
     }
@@ -308,7 +335,6 @@ const RiderDetails = () => {
 
   const handlePhone = () => {
     const phoneNumber = driverId?.[0]?.phoneNumber;
-
     if (phoneNumber) {
       navigator.clipboard
         .writeText(phoneNumber)
@@ -324,16 +350,15 @@ const RiderDetails = () => {
         .catch((err) => {
           console.error("Failed to copy phone number:", err);
           toast({
-            variant: "error",
+            variant: "destructive",
             autodismisstimeout: 1,
             title: "Copy Failed",
             description: "Failed to copy phone number. Please try again.",
           });
         });
     } else {
-      console.log("Phone number is not available");
       toast({
-        variant: "error",
+        variant: "destructive",
         autodismisstimeout: 1,
         title: "No Phone Number",
         description: "Phone number is not available for this driver.",

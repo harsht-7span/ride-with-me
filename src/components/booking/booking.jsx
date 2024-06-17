@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { Progress } from "../ui/progress";
 import { Marker } from "@/assets/icons";
@@ -8,103 +8,105 @@ import { Button } from "../ui";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserId } from "@/lib/utils";
 
-const Booking = () =>
-  //{
-  // vehicle,
-  // originString,
-  // destinationString,
-  // routeDistance,
-  // originCoordinates,
-  // destinationCoordinates,
-  //}
-  {
-    const { toast } = useToast();
-    const navigate = useNavigate();
-    const userIdlocal = getUserId();
+const Booking = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const userIdlocal = getUserId();
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const {
+    selectedVehicle,
+    originInput: originString,
+    destinationInput: destinationString,
+    routeDistance,
+    originCoordinates,
+    destinationCoordinates,
+    setView,
+    setSnap,
+    setBookingId,
+  } = useContext(MapContext);
 
-    const {
-      selectedVehicle,
-      originInput: originString,
-      destinationInput: destinationString,
-      routeDistance,
-      originCoordinates,
-      destinationCoordinates,
-      setView,
-      setSnap,
-      setBookingId,
-    } = useContext(MapContext);
+  const location = useLocation();
 
-    const location = useLocation();
+  const price = routeDistance
+    ? routeDistance.toFixed() * selectedVehicle.pricePerKm
+    : 0;
 
-    const price = routeDistance
-      ? routeDistance.toFixed() * selectedVehicle.pricePerKm
-      : 0;
+  const payload = {
+    vehicleClass: selectedVehicle.type,
+    pickupLocation: originString,
+    dropoffLocation: destinationString,
+    origin: {
+      type: "Point",
+      coordinates: originCoordinates,
+    },
+    destination: {
+      type: "Point",
+      coordinates: destinationCoordinates,
+    },
+    fare: price,
+    customer: userIdlocal,
+  };
 
-    const payload = {
-      vehicleClass: selectedVehicle.type,
-      pickupLocation: originString,
-      dropoffLocation: destinationString,
-      origin: {
-        type: "Point",
-        coordinates: originCoordinates,
-      },
-      destination: {
-        type: "Point",
-        coordinates: destinationCoordinates,
-      },
-      fare: price,
-      customer: userIdlocal,
-    };
+  const makeBooking = async () => {
+    try {
+      setLoadingProgress(20);
+      const response = await booking(payload);
+      setLoadingProgress(60);
+      const id = response.data.data._id;
+      setBookingId(id);
 
-    const makeBooking = async () => {
-      try {
-        const response = await booking(payload);
-        const id = response.data.data._id;
-        setBookingId(id);
+      navigate(`${location.pathname}?bookingId=${id}`);
+      setLoadingProgress(100);
 
-        navigate(`${location.pathname}?bookingId=${id}`);
+      toast({
+        variant: "success",
+        autodismisstimeout: 1,
+        title: "Confirming your Booking",
+        description: `You requested booking with a fare of ₹${price}`,
+        status: "success",
+      });
+    } catch (error) {
+      toast({
+        autodismisstimeout: 1,
+        variant: "destructive",
+        title: "Booking Failed",
+        description: `There was an issue confirming your booking: ${error.message}`,
+        status: "error",
+      });
+      setLoadingProgress(0);
+    }
+  };
 
-        toast({
-          variant: "success",
-          autodismisstimeout: 1,
-          title: "Booking Confirmed",
-          description: `Your booking has been confirmed with a fare of ₹${price}`,
-          status: "success",
-        });
-      } catch (error) {
-        toast({
-          autodismisstimeout: 1,
-          variant: "destructive",
-          title: "Booking Failed",
-          description: `There was an issue confirming your booking: ${error.message}`,
-          status: "error",
-        });
-      }
-    };
-
-    useEffect(() => {
+  useEffect(
+    () => {
       makeBooking();
-    }, [
-      selectedVehicle,
-      originString,
-      destinationString,
-      originCoordinates,
-      destinationCoordinates,
-    ]);
+    },
+    [
+      // selectedVehicle,
+      // originString,
+      // destinationString,
+      // originCoordinates,
+      // destinationCoordinates,
+    ]
+  );
 
-    const handlerDriver = () => {
-      setView("riderDetails");
-      setSnap(0.6);
-    };
+  const handlerDriver = () => {
+    setView("riderDetails");
+    setSnap(0.6);
+  };
 
-    return (
+  return (
+    <>
+      <div className="w-7 h-1 bg-gray-500 mt-5 rounded" />
       <div className="px-4">
         <h2 className="py-4 font-medium text-2xl">
           Confirming your {selectedVehicle.type}
         </h2>
-        {/* <div>
-        <Progress value={40} className="" />
-      </div> */}
+        {/* {loadingProgress < 100 && (
+          <div className="my-7">
+            <Progress value={loadingProgress} className="" />
+          </div>
+        )} */}
         <div className="my-7 flex flex-row justify-around">
           <div>
             <div className="progress-bar">
@@ -138,7 +140,6 @@ const Booking = () =>
         <div className="text-gray-500">
           <div className="flex items-center">
             <Marker className="w-7 h-7 text-gray-400" />
-
             <p>{originString}</p>
           </div>
           <div className="w-[3px] h-5 ml-3 bg-gray-400"></div>
@@ -151,7 +152,8 @@ const Booking = () =>
           Driver details
         </Button>
       </div>
-    );
-  };
+    </>
+  );
+};
 
 export default Booking;

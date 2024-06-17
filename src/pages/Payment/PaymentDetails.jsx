@@ -40,7 +40,6 @@ const PaymentDetails = () => {
     try {
       const response = await userId(userIdlocal);
       if (response.data.success) {
-        console.log(userData);
         setUserData(response.data.data);
       }
     } catch (error) {
@@ -104,11 +103,10 @@ const PaymentDetails = () => {
 
     try {
       const response = await payment(payload);
-      console.log(response);
       const url = response?.data?.url;
       if (url) {
         window.location.href = url;
-        // console.log(payload);
+
         // window.open(url, "_blank");
       }
     } catch (error) {
@@ -122,6 +120,8 @@ const PaymentDetails = () => {
 
   return (
     <>
+      <div className="w-7 h-1 bg-gray-500 mt-5 rounded" />
+
       <div className="px-4 w-full text-left font-poppins ">
         <div className="mt-5">
           <h1 className="font-medium text-base leading-6">Ride Details</h1>

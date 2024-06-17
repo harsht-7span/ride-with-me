@@ -11,3 +11,7 @@ export const rideRequest = async () => {
 export const driverByID = async (id) => {
   return axiosClient.get(`/driver/${id}`);
 };
+
+export const driverOtp = async (id) => {
+  return axiosClient.put(`/driver/bookingotp/${id}`);
+};

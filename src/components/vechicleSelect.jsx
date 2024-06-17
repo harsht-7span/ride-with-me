@@ -16,6 +16,7 @@ const VehicleSelect = ({
 
   return (
     <>
+      <div className="w-7 h-1 bg-gray-500 mt-5 rounded" />
       <div className="w-full container py-5 space-y-3">
         <div className="flex gap-3 items-center">
           <GreenDot />

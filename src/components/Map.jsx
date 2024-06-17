@@ -20,8 +20,7 @@ const Map = () => {
   const [isProfileVisible, setIsProfileVisible] = useState(false);
 
   useEffect(() => {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoibWF5YW5rLTAiLCJhIjoiY2x1MmhweHRmMHRnZTJtcGRvZXd1dzdxaCJ9.Jv2qrYH63lMJsb_JNvixzA";
+    mapboxgl.accessToken = import.meta.env.VITE_MAP_TOKEN;
 
     navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
       enableHighAccuracy: true,
@@ -93,9 +92,15 @@ const Map = () => {
       directions.on("route", (e) => {
         const route = e.route && e.route[0];
         if (route) {
-          const originCoords = route.legs[0].steps[0].maneuver.location;
-          const destinationCoords =
+          const swappedOriginCoords = route.legs[0].steps[0].maneuver.location;
+          const swappedDestinationCoords =
             route.legs[0].steps.slice(-1)[0].maneuver.location;
+
+          const originCoords = [swappedOriginCoords[1], swappedOriginCoords[0]];
+          const destinationCoords = [
+            swappedDestinationCoords[1],
+            swappedDestinationCoords[0],
+          ];
 
           setOriginCoordinates(originCoords);
           setDestinationCoordinates(destinationCoords);

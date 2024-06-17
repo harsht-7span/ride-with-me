@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import SuccessfullPage from "./pages/Successfull/SuccessfullPage";
 import VerifyPage from "./pages/VerifyPage/VerifyPage";
@@ -65,17 +64,20 @@ function App() {
             path="/paymode"
             element={<AuthRoute element={PaymentMode} isPrivate={true} />}
           />
-          <Route
+          {/* <Route
             path="/successpayment"
             element={
               <AuthRoute element={SuccessfullPayment} isPrivate={true} />
             }
           />
+
           <Route
             path="/cancelpayment"
             element={<AuthRoute element={CancelPayment} isPrivate={true} />}
-          />
+          /> */}
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/successpayment" element={<SuccessfullPayment />} />
+          <Route path="/cancelpayment" element={<CancelPayment />} />
         </Route>
       </Routes>
       <Toaster />

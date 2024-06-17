@@ -12,7 +12,7 @@ import {
   Input,
 } from "@/components/ui";
 import Phone from "@/assets/icons/phone";
-import { User } from "@/assets/icons";
+import { User, UserOutline } from "@/assets/icons";
 import Email from "@/assets/icons/email";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
@@ -107,7 +107,7 @@ function SignUpPage() {
                       <FormItem>
                         <FormControl>
                           <div className="flex items-center px-2  border rounded">
-                            <User />
+                            <UserOutline className="text-gray-400" />
                             <Input
                               placeholder="Name"
                               {...field}
